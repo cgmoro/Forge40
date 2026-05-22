@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FORGE40 — God-Level Mode (3 Variants)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --display: 'Cinzel', serif;
+    --body: 'Manrope', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  body {
+    background: #0a0a0b;
+    font-family: var(--body);
+    color: #e8e2d5;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Page header */
+  .page-header {
+    padding: 40px 24px 24px;
+    text-align: center;
+    border-bottom: 1px solid #1c1b19;
+  }
+  .page-header h1 {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 28px;
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+  }
+  .page-header p {
+    color: #8a8680;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+  }
+  .controls {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 24px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #1c1b19;
+    background: #0f0f10;
+  }
+  .stage-btn {
+    background: transparent;
+    border: 1px solid #2e2d2a;
+    color: #8a8680;
+    padding: 10px 18px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .stage-btn:hover { color: #e8e2d5; border-color: #5a5852; }
+  .stage-btn.active {
+    color: #e8e2d5;
+    border-color: #8b6f3f;
+    background: rgba(139, 111, 63, 0.1);
+  }
+
+  /* Grid of three phones */
+  .variants-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    padding: 40px 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  @media (max-width: 1100px) {
+    .variants-grid { grid-template-columns: 1fr; gap: 48px; }
+  }
+
+  .variant-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .variant-label {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .variant-sublabel {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: #8a8680;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  /* Phone frame */
+  .phone {
+    width: 380px;
+    max-width: 100%;
+    height: 780px;
+    background: #000;
+    border: 8px solid #1a1a1a;
+    border-radius: 44px;
+    box-shadow:
+      0 0 0 1px #2a2a2a,
+      0 30px 60px rgba(0,0,0,0.6),
+      inset 0 0 0 2px #0a0a0a;
+    position: relative;
+    overflow: hidden;
+  }
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 8px; left: 50%;
+    transform: translateX(-50%);
+    width: 100px; height: 28px;
+    background: #000;
+    border-radius: 0 0 18px 18px;
+    z-index: 100;
+  }
+
+  .screen {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    display: none;
+  }
+  .screen.active { display: block; }
+
+  /* ==========================================================
+     VARIANT A — DARK STONE + BLOOD + EMBER (FIRE EMPHASIS)
+     ========================================================== */
+  .variant-a .screen { color: #e8e2d5; }
+  .variant-a .screen-base {
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(139, 0, 0, 0.12) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(201, 65, 11, 0.15) 0%, transparent 70%),
+      linear-gradient(180deg, #0a0a0b 0%, #14110f 100%);
+  }
+
+  /* STAGE 1: LOCKED COUNTDOWN */
+  .va-stage1 {
+    display: flex;
+    flex-direction: column;
+    padding: 70px 32px 40px;
+  }
+  .va-stage1 .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 60px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: #5a5852;
+  }
+  .va-stage1 .back-arrow { color: #8a8680; text-decoration: none; font-size: 18px; }
+  .va-stage1 .title-block {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  .va-stage1 .eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: #8b0000;
+    margin-bottom: 14px;
+  }
+  .va-stage1 .lock-icon {
+    width: 64px; height: 64px;
+    margin: 0 auto 20px;
+    position: relative;
+    opacity: 0.85;
+  }
+  .va-stage1 .lock-icon svg { width: 100%; height: 100%; }
+  .va-stage1 .title {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 38px;
+    letter-spacing: 0.08em;
+    line-height: 1.05;
+    color: #e8e2d5;
+    margin-bottom: 8px;
+  }
+  .va-stage1 .sub {
+    font-size: 13px;
+    color: #8a8680;
+    letter-spacing: 0.04em;
+    max-width: 280px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+  .va-stage1 .countdown-card {
+    background: linear-gradient(180deg, rgba(28, 27, 25, 0.6) 0%, rgba(20, 17, 15, 0.9) 100%);
+    border: 1px solid #2e2d2a;
+    border-top: 1px solid rgba(139, 0, 0, 0.3);
+    padding: 28px 24px;
+    margin-top: auto;
+    position: relative;
+  }
+  .va-stage1 .countdown-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 20%; right: 20%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #8b0000, transparent);
+  }
+  .va-stage1 .countdown-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: #8a8680;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+  .va-stage1 .countdown-time {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    text-align: center;
+  }
+  .va-stage1 .time-block .num {
+    font-family: var(--mono);
+    font-size: 34px;
+    font-weight: 800;
+    color: #c9410b;
+    line-height: 1;
+  }
+  .va-stage1 .time-block .unit {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: #5a5852;
+    margin-top: 8px;
+  }
+  .va-stage1 .quote-line {
+    text-align: center;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 12px;
+    color: #5a5852;
+    margin-top: 24px;
+    letter-spacing: 0.03em;
+  }
+
+  /* STAGE 2: WARNING */
+  .va-stage2 {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 80px 32px 40px;
+    position: relative;
+  }
+  .va-stage2::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(139, 0, 0, 0.4) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(201, 65, 11, 0.3) 0%, transparent 60%);
+    pointer-events: none;
+    animation: pulseWarn 3s ease-in-out infinite;
+  }
+  @keyframes pulseWarn {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+  .va-stage2 .warn-icon {
+    width: 56px; height: 56px;
+    margin: 0 auto 28px;
+    color: #c9410b;
+    animation: flicker 2s ease-in-out infinite;
+  }
+  @keyframes flicker {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(0.96); }
+  }
+  .va-stage2 .warn-eyebrow {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    color: #c9410b;
+    margin-bottom: 24px;
+  }
+  .va-stage2 .warn-title {
+    text-align: center;
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 44px;
+    letter-spacing: 0.06em;
+    line-height: 0.95;
+    margin-bottom: 4px;
+    text-shadow: 0 0 30px rgba(201, 65, 11, 0.4);
+  }
+  .va-stage2 .warn-mode {
+    text-align: center;
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 44px;
+    letter-spacing: 0.06em;
+    line-height: 0.95;
+    color: #8b0000;
+    margin-bottom: 36px;
+    text-shadow: 0 0 30px rgba(139, 0, 0, 0.6);
+  }
+  .va-stage2 .stats-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid #2e2d2a;
+    border-bottom: 1px solid #2e2d2a;
+    padding: 20px 0;
+    margin-bottom: 28px;
+  }
+  .va-stage2 .stat {
+    text-align: center;
+    border-left: 1px solid #2e2d2a;
+  }
+  .va-stage2 .stat:first-child { border-left: none; }
+  .va-stage2 .stat .val {
+    font-family: var(--mono);
+    font-size: 24px;
+    font-weight: 800;
+    color: #e8e2d5;
+  }
+  .va-stage2 .stat .lab {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: #8a8680;
+    margin-top: 6px;
+  }
+  .va-stage2 .warn-body {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #c8c2b5;
+    text-align: center;
+    max-width: 290px;
+    margin: 0 auto 32px;
+    font-style: italic;
+    font-family: var(--display);
+  }
+  .va-stage2 .warn-cta-area {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .va-stage2 .btn-primary {
+    background: #8b0000;
+    color: #e8e2d5;
+    border: none;
+    padding: 18px;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.3em;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+  .va-stage2 .btn-primary:hover {
+    background: #a30000;
+    box-shadow: 0 0 30px rgba(139, 0, 0, 0.6);
+  }
+  .va-stage2 .btn-secondary {
+    background: transparent;
+    color: #8a8680;
+    border: 1px solid #2e2d2a;
+    padding: 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    cursor: pointer;
+  }
+
+  /* STAGE 3: CONFIRM */
+  .va-stage3 {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 90px 32px 40px;
+    position: relative;
+    background:
+      radial-gradient(ellipse at 50% 50%, rgba(139, 0, 0, 0.3) 0%, transparent 70%),
+      linear-gradient(180deg, #0a0a0b 0%, #1a0808 100%);
+  }
+  .va-stage3 .embers {
+    position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+  }
+  .va-stage3 .ember {
+    position: absolute;
+    width: 3px; height: 3px;
+    background: #c9410b;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #c9410b, 0 0 12px #8b0000;
+    animation: rise linear infinite;
+  }
+  @keyframes rise {
+    0% { transform: translateY(800px) translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(-100px) translateX(var(--drift, 20px)); opacity: 0; }
+  }
+  .va-stage3 .confirm-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .va-stage3 .final-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    color: #c9410b;
+    margin-bottom: 16px;
+    animation: flicker 1.5s ease-in-out infinite;
+  }
+  .va-stage3 .final-title {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 56px;
+    letter-spacing: 0.04em;
+    line-height: 0.9;
+    color: #e8e2d5;
+    margin-bottom: 8px;
+    text-shadow:
+      0 0 20px rgba(201, 65, 11, 0.6),
+      0 0 40px rgba(139, 0, 0, 0.4);
+  }
+  .va-stage3 .final-line {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 14px;
+    color: #c9410b;
+    margin-bottom: 40px;
+    letter-spacing: 0.05em;
+  }
+  .va-stage3 .one-question {
+    margin-top: auto;
+    margin-bottom: 32px;
+  }
+  .va-stage3 .question-text {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #e8e2d5;
+    margin-bottom: 28px;
+    letter-spacing: 0.02em;
+  }
+  .va-stage3 .forge-btn {
+    background: linear-gradient(180deg, #c9410b 0%, #8b0000 100%);
+    color: #fff;
+    border: 1px solid #c9410b;
+    padding: 22px;
+    width: 100%;
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: 0.4em;
+    cursor: pointer;
+    box-shadow:
+      0 0 30px rgba(201, 65, 11, 0.5),
+      inset 0 1px 0 rgba(255, 200, 150, 0.2);
+    position: relative;
+    overflow: hidden;
+    animation: btnPulse 2s ease-in-out infinite;
+  }
+  @keyframes btnPulse {
+    0%, 100% { box-shadow: 0 0 30px rgba(201, 65, 11, 0.5), inset 0 1px 0 rgba(255, 200, 150, 0.2); }
+    50% { box-shadow: 0 0 50px rgba(201, 65, 11, 0.8), inset 0 1px 0 rgba(255, 200, 150, 0.3); }
+  }
+  .va-stage3 .not-today {
+    background: none;
+    border: none;
+    color: #5a5852;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    margin-top: 18px;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+
+  /* STAGE 4: EXPLOSION */
+  .va-stage4 {
+    height: 100%;
+    position: relative;
+    background: #000;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .va-stage4 .flash {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 220, 180, 0.9) 0%, rgba(201, 65, 11, 0.6) 30%, transparent 70%);
+    animation: explode 2.5s ease-out forwards;
+  }
+  @keyframes explode {
+    0% { opacity: 0; transform: scale(0.2); }
+    20% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0.15; transform: scale(2); }
+  }
+  .va-stage4 .shockwave {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 2px solid #c9410b;
+    transform: translate(-50%, -50%);
+    animation: shock 2s ease-out forwards;
+  }
+  .va-stage4 .shockwave:nth-child(2) { animation-delay: 0.2s; border-color: #8b0000; }
+  .va-stage4 .shockwave:nth-child(3) { animation-delay: 0.4s; border-color: #ffaa44; }
+  @keyframes shock {
+    0% { width: 20px; height: 20px; opacity: 1; border-width: 4px; }
+    100% { width: 800px; height: 800px; opacity: 0; border-width: 1px; }
+  }
+  .va-stage4 .explosion-particles {
+    position: absolute; inset: 0;
+  }
+  .va-stage4 .particle {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 6px; height: 6px;
+    background: #ffaa44;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #c9410b;
+    animation: blast 1.5s ease-out forwards;
+  }
+  @keyframes blast {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% {
+      transform: translate(var(--bx, 200px), var(--by, -200px)) scale(0);
+      opacity: 0;
+    }
+  }
+  .va-stage4 .final-msg {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    opacity: 0;
+    animation: revealMsg 1s ease-out 1.5s forwards;
+  }
+  @keyframes revealMsg {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  .va-stage4 .final-msg .stamp {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 38px;
+    letter-spacing: 0.1em;
+    color: #ffaa44;
+    text-shadow: 0 0 30px #c9410b, 0 0 60px #8b0000;
+    margin-bottom: 12px;
+  }
+  .va-stage4 .final-msg .sub {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: #c9410b;
+  }
+
+  /* ==========================================================
+     VARIANT B — BLACK + GOLD + DEEP CRIMSON (REGAL, KINGLY)
+     ========================================================== */
+  .variant-b .screen { color: #e8e2d5; }
+  .variant-b .screen-base {
+    background:
+      radial-gradient(ellipse at 50% 20%, rgba(201, 162, 75, 0.06) 0%, transparent 70%),
+      linear-gradient(180deg, #08080a 0%, #0a0508 100%);
+  }
+
+  /* STAGE 1 */
+  .vb-stage1 {
+    display: flex;
+    flex-direction: column;
+    padding: 70px 32px 40px;
+  }
+  .vb-stage1 .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 60px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: #5a5852;
+  }
+  .vb-stage1 .title-block {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  .vb-stage1 .eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: #c9a24b;
+    margin-bottom: 18px;
+  }
+  .vb-stage1 .lock-icon {
+    width: 64px; height: 64px;
+    margin: 0 auto 22px;
+    color: #c9a24b;
+  }
+  .vb-stage1 .lock-icon svg { width: 100%; height: 100%; }
+  .vb-stage1 .title {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 38px;
+    letter-spacing: 0.08em;
+    line-height: 1.05;
+    color: #c9a24b;
+    margin-bottom: 8px;
+    text-shadow: 0 0 30px rgba(201, 162, 75, 0.2);
+  }
+  .vb-stage1 .sub {
+    font-size: 13px;
+    color: #8a8680;
+    letter-spacing: 0.04em;
+    max-width: 280px;
+    margin: 0 auto;
+    line-height: 1.5;
+    font-style: italic;
+    font-family: var(--display);
+  }
+  .vb-stage1 .countdown-card {
+    background: linear-gradient(180deg, rgba(20, 14, 10, 0.6) 0%, rgba(10, 5, 8, 0.9) 100%);
+    border: 1px solid #3a2f1c;
+    padding: 28px 24px;
+    margin-top: auto;
+    position: relative;
+  }
+  .vb-stage1 .countdown-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #c9a24b, transparent);
+  }
+  .vb-stage1 .countdown-card::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #5a0000, transparent);
+  }
+  .vb-stage1 .countdown-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: #8a8680;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+  .vb-stage1 .countdown-time {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    text-align: center;
+  }
+  .vb-stage1 .time-block .num {
+    font-family: var(--display);
+    font-size: 36px;
+    font-weight: 800;
+    color: #c9a24b;
+    line-height: 1;
+  }
+  .vb-stage1 .time-block .unit {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: #5a5852;
+    margin-top: 8px;
+  }
+  .vb-stage1 .quote-line {
+    text-align: center;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 12px;
+    color: #5a4827;
+    margin-top: 24px;
+    letter-spacing: 0.03em;
+  }
+
+  /* STAGE 2 */
+  .vb-stage2 {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 80px 32px 40px;
+    position: relative;
+  }
+  .vb-stage2::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(80, 0, 0, 0.5) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(201, 162, 75, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .vb-stage2 .warn-icon {
+    width: 56px; height: 56px;
+    margin: 0 auto 24px;
+    color: #c9a24b;
+  }
+  .vb-stage2 .warn-eyebrow {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    color: #c9a24b;
+    margin-bottom: 24px;
+  }
+  .vb-stage2 .warn-title {
+    text-align: center;
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 44px;
+    letter-spacing: 0.06em;
+    line-height: 0.95;
+    color: #c9a24b;
+    margin-bottom: 4px;
+    text-shadow: 0 0 30px rgba(201, 162, 75, 0.3);
+  }
+  .vb-stage2 .warn-mode {
+    text-align: center;
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 44px;
+    letter-spacing: 0.06em;
+    line-height: 0.95;
+    color: #6b0000;
+    margin-bottom: 36px;
+    text-shadow: 0 0 30px rgba(107, 0, 0, 0.5);
+  }
+  .vb-stage2 .stats-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid #3a2f1c;
+    border-bottom: 1px solid #3a2f1c;
+    padding: 20px 0;
+    margin-bottom: 28px;
+  }
+  .vb-stage2 .stat {
+    text-align: center;
+    border-left: 1px solid #3a2f1c;
+  }
+  .vb-stage2 .stat:first-child { border-left: none; }
+  .vb-stage2 .stat .val {
+    font-family: var(--display);
+    font-size: 26px;
+    font-weight: 800;
+    color: #c9a24b;
+  }
+  .vb-stage2 .stat .lab {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: #8a8680;
+    margin-top: 6px;
+  }
+  .vb-stage2 .warn-body {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #b8b2a5;
+    text-align: center;
+    max-width: 290px;
+    margin: 0 auto 32px;
+    font-style: italic;
+    font-family: var(--display);
+  }
+  .vb-stage2 .warn-cta-area {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .vb-stage2 .btn-primary {
+    background: transparent;
+    color: #c9a24b;
+    border: 1px solid #c9a24b;
+    padding: 18px;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.3em;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s;
+  }
+  .vb-stage2 .btn-primary:hover {
+    background: rgba(201, 162, 75, 0.1);
+    box-shadow: 0 0 30px rgba(201, 162, 75, 0.3);
+  }
+  .vb-stage2 .btn-secondary {
+    background: transparent;
+    color: #8a8680;
+    border: none;
+    padding: 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    cursor: pointer;
+  }
+
+  /* STAGE 3 */
+  .vb-stage3 {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 90px 32px 40px;
+    position: relative;
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(80, 0, 0, 0.4) 0%, transparent 70%),
+      radial-gradient(ellipse at 50% 100%, rgba(201, 162, 75, 0.08) 0%, transparent 70%),
+      linear-gradient(180deg, #0a0508 0%, #1a0a08 100%);
+  }
+  .vb-stage3 .gold-motes {
+    position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+  }
+  .vb-stage3 .mote {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: #c9a24b;
+    border-radius: 50%;
+    box-shadow: 0 0 6px #c9a24b;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(800px); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translateY(-50px); opacity: 0; }
+  }
+  .vb-stage3 .confirm-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .vb-stage3 .final-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    color: #c9a24b;
+    margin-bottom: 16px;
+  }
+  .vb-stage3 .final-title {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 56px;
+    letter-spacing: 0.04em;
+    line-height: 0.9;
+    color: #c9a24b;
+    margin-bottom: 8px;
+    text-shadow:
+      0 0 30px rgba(201, 162, 75, 0.4),
+      0 0 60px rgba(107, 0, 0, 0.3);
+  }
+  .vb-stage3 .final-line {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 14px;
+    color: #c9a24b;
+    margin-bottom: 40px;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
+  }
+  .vb-stage3 .one-question {
+    margin-top: auto;
+    margin-bottom: 32px;
+  }
+  .vb-stage3 .question-text {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #e8e2d5;
+    margin-bottom: 28px;
+    letter-spacing: 0.02em;
+  }
+  .vb-stage3 .forge-btn {
+    background: linear-gradient(180deg, #c9a24b 0%, #8b6f3f 100%);
+    color: #0a0508;
+    border: 1px solid #c9a24b;
+    padding: 22px;
+    width: 100%;
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: 0.4em;
+    cursor: pointer;
+    box-shadow:
+      0 0 30px rgba(201, 162, 75, 0.4),
+      inset 0 1px 0 rgba(255, 230, 180, 0.4);
+    position: relative;
+    overflow: hidden;
+  }
+  .vb-stage3 .not-today {
+    background: none;
+    border: none;
+    color: #5a5852;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    margin-top: 18px;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+
+  /* STAGE 4 */
+  .vb-stage4 {
+    height: 100%;
+    position: relative;
+    background: #000;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .vb-stage4 .flash {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 230, 180, 0.95) 0%, rgba(201, 162, 75, 0.6) 30%, transparent 70%);
+    animation: explode 2.5s ease-out forwards;
+  }
+  .vb-stage4 .shockwave {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 2px solid #c9a24b;
+    transform: translate(-50%, -50%);
+    animation: shock 2s ease-out forwards;
+  }
+  .vb-stage4 .shockwave:nth-child(2) { animation-delay: 0.2s; border-color: #8b0000; }
+  .vb-stage4 .shockwave:nth-child(3) { animation-delay: 0.4s; border-color: #ffe6b4; }
+  .vb-stage4 .particle {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 5px; height: 5px;
+    background: #c9a24b;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #c9a24b, 0 0 12px #8b0000;
+    animation: blast 1.5s ease-out forwards;
+  }
+  .vb-stage4 .final-msg {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    opacity: 0;
+    animation: revealMsg 1s ease-out 1.5s forwards;
+  }
+  .vb-stage4 .final-msg .stamp {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 38px;
+    letter-spacing: 0.1em;
+    color: #c9a24b;
+    text-shadow: 0 0 30px #c9a24b, 0 0 60px #8b0000;
+    margin-bottom: 12px;
+  }
+  .vb-stage4 .final-msg .sub {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: #c9a24b;
+  }
+
+  /* ==========================================================
+     VARIANT C — CHARCOAL + BRONZE + WHITE-HOT (FORGE/MOLTEN)
+     ========================================================== */
+  .variant-c .screen { color: #e8e2d5; }
+  .variant-c .screen-base {
+    background:
+      radial-gradient(ellipse at 50% 40%, rgba(255, 255, 240, 0.03) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(139, 111, 63, 0.12) 0%, transparent 70%),
+      linear-gradient(180deg, #161618 0%, #0c0c0e 100%);
+  }
+
+  /* STAGE 1 */
+  .vc-stage1 {
+    display: flex;
+    flex-direction: column;
+    padding: 70px 32px 40px;
+  }
+  .vc-stage1 .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 60px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: #5a5852;
+  }
+  .vc-stage1 .title-block {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  .vc-stage1 .eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: #8b6f3f;
+    margin-bottom: 18px;
+  }
+  .vc-stage1 .anvil-icon {
+    width: 72px; height: 72px;
+    margin: 0 auto 20px;
+    color: #8b6f3f;
+  }
+  .vc-stage1 .anvil-icon svg { width: 100%; height: 100%; }
+  .vc-stage1 .title {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 36px;
+    letter-spacing: 0.08em;
+    line-height: 1.05;
+    color: #e8e2d5;
+    margin-bottom: 8px;
+  }
+  .vc-stage1 .title .accent {
+    color: #8b6f3f;
+  }
+  .vc-stage1 .sub {
+    font-size: 13px;
+    color: #8a8680;
+    letter-spacing: 0.04em;
+    max-width: 280px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+  .vc-stage1 .countdown-card {
+    background: linear-gradient(180deg, rgba(40, 38, 34, 0.6) 0%, rgba(20, 19, 17, 0.9) 100%);
+    border: 1px solid #3a3833;
+    padding: 28px 24px;
+    margin-top: auto;
+    position: relative;
+  }
+  .vc-stage1 .countdown-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 15%; right: 15%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #8b6f3f, transparent);
+  }
+  .vc-stage1 .countdown-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: #8a8680;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+  .vc-stage1 .countdown-time {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    text-align: center;
+  }
+  .vc-stage1 .time-block .num {
+    font-family: var(--mono);
+    font-size: 34px;
+    font-weight: 800;
+    color: #e8e2d5;
+    line-height: 1;
+  }
+  .vc-stage1 .time-block .num.hot {
+    color: #fff8e6;
+    text-shadow: 0 0 20px rgba(255, 200, 100, 0.4);
+  }
+  .vc-stage1 .time-block .unit {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: #5a5852;
+    margin-top: 8px;
+  }
+  .vc-stage1 .quote-line {
+    text-align: center;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 12px;
+    color: #5a5852;
+    margin-top: 24px;
+    letter-spacing: 0.03em;
+  }
+
+  /* STAGE 2 */
+  .vc-stage2 {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 80px 32px 40px;
+    position: relative;
+  }
+  .vc-stage2::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(255, 200, 100, 0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 100%, rgba(139, 111, 63, 0.3) 0%, transparent 70%);
+    pointer-events: none;
+    animation: forgeBreathe 4s ease-in-out infinite;
+  }
+  @keyframes forgeBreathe {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+  .vc-stage2 .heat-bar {
+    height: 3px;
+    background: linear-gradient(90deg,
+      transparent,
+      #8b6f3f 20%,
+      #c9410b 50%,
+      #fff8e6 80%,
+      transparent);
+    margin-bottom: 32px;
+    position: relative;
+    animation: heatShimmer 2s ease-in-out infinite;
+  }
+  @keyframes heatShimmer {
+    0%, 100% { opacity: 0.7; filter: blur(0.5px); }
+    50% { opacity: 1; filter: blur(0); }
+  }
+  .vc-stage2 .warn-eyebrow {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    color: #fff8e6;
+    margin-bottom: 24px;
+    text-shadow: 0 0 20px rgba(255, 200, 100, 0.5);
+  }
+  .vc-stage2 .warn-title {
+    text-align: center;
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 44px;
+    letter-spacing: 0.06em;
+    line-height: 0.95;
+    color: #e8e2d5;
+    margin-bottom: 4px;
+  }
+  .vc-stage2 .warn-mode {
+    text-align: center;
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 44px;
+    letter-spacing: 0.06em;
+    line-height: 0.95;
+    background: linear-gradient(180deg, #fff8e6 0%, #c9410b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 36px;
+    text-shadow: 0 0 40px rgba(255, 200, 100, 0.3);
+  }
+  .vc-stage2 .stats-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid #3a3833;
+    border-bottom: 1px solid #3a3833;
+    padding: 20px 0;
+    margin-bottom: 28px;
+  }
+  .vc-stage2 .stat {
+    text-align: center;
+    border-left: 1px solid #3a3833;
+  }
+  .vc-stage2 .stat:first-child { border-left: none; }
+  .vc-stage2 .stat .val {
+    font-family: var(--mono);
+    font-size: 24px;
+    font-weight: 800;
+    color: #e8e2d5;
+  }
+  .vc-stage2 .stat .lab {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: #8a8680;
+    margin-top: 6px;
+  }
+  .vc-stage2 .warn-body {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #c8c2b5;
+    text-align: center;
+    max-width: 290px;
+    margin: 0 auto 32px;
+    font-style: italic;
+    font-family: var(--display);
+  }
+  .vc-stage2 .warn-cta-area {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .vc-stage2 .btn-primary {
+    background: linear-gradient(180deg, #8b6f3f 0%, #5a4827 100%);
+    color: #fff8e6;
+    border: 1px solid #8b6f3f;
+    padding: 18px;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.3em;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s;
+    box-shadow: inset 0 1px 0 rgba(255, 248, 230, 0.2);
+  }
+  .vc-stage2 .btn-primary:hover {
+    background: linear-gradient(180deg, #c9410b 0%, #8b6f3f 100%);
+    box-shadow: 0 0 30px rgba(255, 200, 100, 0.4), inset 0 1px 0 rgba(255, 248, 230, 0.3);
+  }
+  .vc-stage2 .btn-secondary {
+    background: transparent;
+    color: #8a8680;
+    border: 1px solid #3a3833;
+    padding: 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    cursor: pointer;
+  }
+
+  /* STAGE 3 */
+  .vc-stage3 {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 90px 32px 40px;
+    position: relative;
+    background:
+      radial-gradient(ellipse at 50% 40%, rgba(255, 200, 100, 0.15) 0%, transparent 65%),
+      radial-gradient(ellipse at 50% 100%, rgba(201, 65, 11, 0.3) 0%, transparent 70%),
+      linear-gradient(180deg, #161618 0%, #2a1a0a 100%);
+  }
+  .vc-stage3 .sparks {
+    position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+  }
+  .vc-stage3 .spark {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: #fff8e6;
+    border-radius: 50%;
+    box-shadow: 0 0 6px #fff8e6, 0 0 10px #c9410b;
+    animation: sparkFly linear infinite;
+  }
+  @keyframes sparkFly {
+    0% {
+      transform: translateY(800px) translateX(0);
+      opacity: 0;
+    }
+    15% { opacity: 1; }
+    100% {
+      transform: translateY(-100px) translateX(var(--drift, 50px));
+      opacity: 0;
+    }
+  }
+  .vc-stage3 .confirm-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .vc-stage3 .final-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    color: #fff8e6;
+    margin-bottom: 16px;
+    text-shadow: 0 0 20px rgba(255, 200, 100, 0.5);
+  }
+  .vc-stage3 .final-title {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 56px;
+    letter-spacing: 0.04em;
+    line-height: 0.9;
+    background: linear-gradient(180deg, #fff8e6 0%, #c9410b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+    text-shadow: 0 0 40px rgba(255, 200, 100, 0.4);
+  }
+  .vc-stage3 .final-line {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 14px;
+    color: #fff8e6;
+    margin-bottom: 40px;
+    letter-spacing: 0.05em;
+    opacity: 0.8;
+  }
+  .vc-stage3 .one-question {
+    margin-top: auto;
+    margin-bottom: 32px;
+  }
+  .vc-stage3 .question-text {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #e8e2d5;
+    margin-bottom: 28px;
+    letter-spacing: 0.02em;
+  }
+  .vc-stage3 .forge-btn {
+    background: linear-gradient(180deg, #fff8e6 0%, #c9410b 50%, #8b6f3f 100%);
+    color: #1a0a08;
+    border: 1px solid #fff8e6;
+    padding: 22px;
+    width: 100%;
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: 0.4em;
+    cursor: pointer;
+    box-shadow:
+      0 0 40px rgba(255, 200, 100, 0.6),
+      0 0 80px rgba(201, 65, 11, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    position: relative;
+    overflow: hidden;
+    animation: moltenPulse 2s ease-in-out infinite;
+  }
+  @keyframes moltenPulse {
+    0%, 100% { box-shadow: 0 0 40px rgba(255, 200, 100, 0.6), 0 0 80px rgba(201, 65, 11, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5); }
+    50% { box-shadow: 0 0 60px rgba(255, 200, 100, 0.9), 0 0 100px rgba(201, 65, 11, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6); }
+  }
+  .vc-stage3 .not-today {
+    background: none;
+    border: none;
+    color: #5a5852;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    margin-top: 18px;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+
+  /* STAGE 4 */
+  .vc-stage4 {
+    height: 100%;
+    position: relative;
+    background: #000;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .vc-stage4 .flash {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 50%, #fff8e6 0%, rgba(255, 200, 100, 0.8) 20%, rgba(201, 65, 11, 0.4) 50%, transparent 75%);
+    animation: explode 2.5s ease-out forwards;
+  }
+  .vc-stage4 .shockwave {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 3px solid #fff8e6;
+    transform: translate(-50%, -50%);
+    animation: shock 2s ease-out forwards;
+  }
+  .vc-stage4 .shockwave:nth-child(2) { animation-delay: 0.15s; border-color: #c9410b; }
+  .vc-stage4 .shockwave:nth-child(3) { animation-delay: 0.3s; border-color: #8b6f3f; }
+  .vc-stage4 .particle {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 4px; height: 4px;
+    background: #fff8e6;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #fff8e6, 0 0 16px #c9410b;
+    animation: blast 1.5s ease-out forwards;
+  }
+  .vc-stage4 .final-msg {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    opacity: 0;
+    animation: revealMsg 1s ease-out 1.5s forwards;
+  }
+  .vc-stage4 .final-msg .stamp {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 38px;
+    letter-spacing: 0.1em;
+    background: linear-gradient(180deg, #fff8e6 0%, #c9410b 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 40px rgba(255, 200, 100, 0.6);
+    margin-bottom: 12px;
+  }
+  .vc-stage4 .final-msg .sub {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: #fff8e6;
+  }
+
+  /* Footer note */
+  .footer-note {
+    text-align: center;
+    padding: 40px 24px 60px;
+    color: #5a5852;
+    font-size: 12px;
+    font-family: var(--mono);
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto;
+    border-top: 1px solid #1c1b19;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>GOD-LEVEL MODE</h1>
+  <p>3 variants · 4 stages each · tap to walk through the cinematic sequence</p>
+</div>
+
+<div class="controls">
+  <button class="stage-btn active" data-stage="1">1 · LOCKED</button>
+  <button class="stage-btn" data-stage="2">2 · WARNING</button>
+  <button class="stage-btn" data-stage="3">3 · CONFIRM</button>
+  <button class="stage-btn" data-stage="4">4 · EXPLOSION</button>
+</div>
+
+<div class="variants-grid">
+
+  <!-- ============ VARIANT A ============ -->
+  <div class="variant-column variant-a">
+    <div class="variant-label">Variant A</div>
+    <div class="variant-sublabel">Stone · Blood · Ember</div>
+    <div class="phone">
+
+      <!-- Stage 1: LOCKED -->
+      <div class="screen active" data-stage="1">
+        <div class="screen-base" style="height:100%;">
+          <div class="va-stage1" style="height:100%;">
+            <div class="topbar">
+              <span class="back-arrow">←</span>
+              <span>UNAVAILABLE</span>
+            </div>
+            <div class="title-block">
+              <div class="eyebrow">SEALED</div>
+              <div class="lock-icon">
+                <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:#8b0000;">
+                  <rect x="14" y="28" width="36" height="28" rx="2"/>
+                  <path d="M22 28 V20 a10 10 0 0 1 20 0 V28"/>
+                  <circle cx="32" cy="40" r="3" fill="currentColor"/>
+                  <line x1="32" y1="43" x2="32" y2="48"/>
+                </svg>
+              </div>
+              <div class="title">GOD-LEVEL</div>
+              <div class="sub">The gates open once every seven days.<br/>Recovery is the work.</div>
+            </div>
+            <div class="countdown-card">
+              <div class="countdown-label">GATES OPEN IN</div>
+              <div class="countdown-time">
+                <div class="time-block"><div class="num">4</div><div class="unit">DAYS</div></div>
+                <div class="time-block"><div class="num">11</div><div class="unit">HOURS</div></div>
+                <div class="time-block"><div class="num">23</div><div class="unit">MIN</div></div>
+              </div>
+              <div class="quote-line">"Patience is the bravery of virtue." — Aurelius</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 2: WARNING -->
+      <div class="screen" data-stage="2">
+        <div class="screen-base" style="height:100%;">
+          <div class="va-stage2">
+            <div class="warn-icon">
+              <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M28 6 L52 50 L4 50 Z"/>
+                <line x1="28" y1="22" x2="28" y2="36"/>
+                <circle cx="28" cy="42" r="1.5" fill="currentColor"/>
+              </svg>
+            </div>
+            <div class="warn-eyebrow">YOU ARE ABOUT TO ENTER</div>
+            <div class="warn-title">GOD-LEVEL</div>
+            <div class="warn-mode">MODE</div>
+            <div class="stats-row">
+              <div class="stat"><div class="val">45<span style="font-size:14px;">MIN</span></div><div class="lab">DURATION</div></div>
+              <div class="stat"><div class="val">MAX</div><div class="lab">EFFORT</div></div>
+            </div>
+            <div class="warn-body">
+              This replaces today's workout. There is no pause, no scale-down, no half-rep escape.<br/><br/>
+              You earn five shields and a Titan mark, or you don't.
+            </div>
+            <div class="warn-cta-area">
+              <button class="btn-primary">I UNDERSTAND</button>
+              <button class="btn-secondary">RETREAT</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 3: CONFIRM -->
+      <div class="screen" data-stage="3">
+        <div class="va-stage3">
+          <div class="embers">
+            <span class="ember" style="left:10%; animation-duration:4s; animation-delay:0s; --drift:30px;"></span>
+            <span class="ember" style="left:25%; animation-duration:5s; animation-delay:1s; --drift:-20px;"></span>
+            <span class="ember" style="left:45%; animation-duration:4.5s; animation-delay:0.5s; --drift:15px;"></span>
+            <span class="ember" style="left:65%; animation-duration:5.5s; animation-delay:1.5s; --drift:-40px;"></span>
+            <span class="ember" style="left:80%; animation-duration:4s; animation-delay:2s; --drift:10px;"></span>
+            <span class="ember" style="left:55%; animation-duration:6s; animation-delay:0.8s; --drift:25px;"></span>
+            <span class="ember" style="left:35%; animation-duration:4.2s; animation-delay:2.5s; --drift:-15px;"></span>
+            <span class="ember" style="left:90%; animation-duration:5.2s; animation-delay:1.2s; --drift:-30px;"></span>
+          </div>
+          <div class="confirm-content">
+            <div class="final-eyebrow">NO RETREAT · NO RETURN</div>
+            <div class="final-title">FORGE<br/>OR<br/>FOLD</div>
+            <div class="final-line">— Last word before iron.</div>
+            <div class="one-question">
+              <div class="question-text">What kind of man walks out of this room?</div>
+              <button class="forge-btn">FORGE ME</button>
+              <button class="not-today">NOT TODAY</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 4: EXPLOSION -->
+      <div class="screen" data-stage="4">
+        <div class="va-stage4">
+          <div class="flash"></div>
+          <div class="shockwave"></div>
+          <div class="shockwave"></div>
+          <div class="shockwave"></div>
+          <div class="explosion-particles">
+            <span class="particle" style="--bx: 180px; --by: -160px;"></span>
+            <span class="particle" style="--bx: -140px; --by: -180px;"></span>
+            <span class="particle" style="--bx: 160px; --by: 140px;"></span>
+            <span class="particle" style="--bx: -180px; --by: 120px;"></span>
+            <span class="particle" style="--bx: 220px; --by: 0px;"></span>
+            <span class="particle" style="--bx: -200px; --by: 30px;"></span>
+            <span class="particle" style="--bx: 60px; --by: -240px;"></span>
+            <span class="particle" style="--bx: -80px; --by: 220px;"></span>
+            <span class="particle" style="--bx: 240px; --by: -80px;"></span>
+            <span class="particle" style="--bx: -240px; --by: -60px;"></span>
+            <span class="particle" style="--bx: 100px; --by: 240px;"></span>
+            <span class="particle" style="--bx: -120px; --by: -220px;"></span>
+          </div>
+          <div class="final-msg">
+            <div class="stamp">FORGED</div>
+            <div class="sub">BEGIN IN 3 · 2 · 1</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ VARIANT B ============ -->
+  <div class="variant-column variant-b">
+    <div class="variant-label">Variant B</div>
+    <div class="variant-sublabel">Black · Gold · Crimson</div>
+    <div class="phone">
+
+      <!-- Stage 1 -->
+      <div class="screen active" data-stage="1">
+        <div class="screen-base" style="height:100%;">
+          <div class="vb-stage1" style="height:100%;">
+            <div class="topbar">
+              <span style="color:#8a8680;">←</span>
+              <span>UNAVAILABLE</span>
+            </div>
+            <div class="title-block">
+              <div class="eyebrow">REGNUM CLAUSUM</div>
+              <div class="lock-icon">
+                <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 30 L32 8 L48 30 L48 56 L16 56 Z"/>
+                  <path d="M24 56 L24 38 L40 38 L40 56"/>
+                  <circle cx="32" cy="44" r="2" fill="currentColor"/>
+                </svg>
+              </div>
+              <div class="title">GOD-LEVEL</div>
+              <div class="sub">The crown does not come every day.<br/>Wait, and earn the keys.</div>
+            </div>
+            <div class="countdown-card">
+              <div class="countdown-label">GATES OPEN IN</div>
+              <div class="countdown-time">
+                <div class="time-block"><div class="num">4</div><div class="unit">DAYS</div></div>
+                <div class="time-block"><div class="num">11</div><div class="unit">HOURS</div></div>
+                <div class="time-block"><div class="num">23</div><div class="unit">MIN</div></div>
+              </div>
+              <div class="quote-line">"The crown belongs to no man, only to the moment." — Aurelius</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 2 -->
+      <div class="screen" data-stage="2">
+        <div class="screen-base" style="height:100%;">
+          <div class="vb-stage2">
+            <div class="warn-icon">
+              <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 18 L18 32 L28 8 L38 32 L46 18 L46 44 L10 44 Z"/>
+                <circle cx="18" cy="14" r="2" fill="currentColor"/>
+                <circle cx="38" cy="14" r="2" fill="currentColor"/>
+                <circle cx="28" cy="5" r="2" fill="currentColor"/>
+              </svg>
+            </div>
+            <div class="warn-eyebrow">THE GATES STAND OPEN</div>
+            <div class="warn-title">GOD-LEVEL</div>
+            <div class="warn-mode">MODE</div>
+            <div class="stats-row">
+              <div class="stat"><div class="val">45<span style="font-size:14px;">MIN</span></div><div class="lab">DURATION</div></div>
+              <div class="stat"><div class="val">MAX</div><div class="lab">EFFORT</div></div>
+            </div>
+            <div class="warn-body">
+              This replaces today's work. No mercy. No retreat. No half-measure.<br/><br/>
+              Five shields. A Titan mark. The crown grows nearer.
+            </div>
+            <div class="warn-cta-area">
+              <button class="btn-primary">I UNDERSTAND</button>
+              <button class="btn-secondary">NOT YET</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 3 -->
+      <div class="screen" data-stage="3">
+        <div class="vb-stage3">
+          <div class="gold-motes">
+            <span class="mote" style="left:8%; animation-duration:7s; animation-delay:0s;"></span>
+            <span class="mote" style="left:22%; animation-duration:8s; animation-delay:1.5s;"></span>
+            <span class="mote" style="left:42%; animation-duration:6.5s; animation-delay:0.8s;"></span>
+            <span class="mote" style="left:62%; animation-duration:9s; animation-delay:2s;"></span>
+            <span class="mote" style="left:78%; animation-duration:7.5s; animation-delay:3s;"></span>
+            <span class="mote" style="left:52%; animation-duration:8.5s; animation-delay:1.2s;"></span>
+            <span class="mote" style="left:32%; animation-duration:6s; animation-delay:2.5s;"></span>
+            <span class="mote" style="left:88%; animation-duration:7s; animation-delay:0.4s;"></span>
+            <span class="mote" style="left:15%; animation-duration:9s; animation-delay:2.8s;"></span>
+            <span class="mote" style="left:70%; animation-duration:7.8s; animation-delay:1.7s;"></span>
+          </div>
+          <div class="confirm-content">
+            <div class="final-eyebrow">CROWN OR CINDER</div>
+            <div class="final-title">RISE<br/>OR<br/>YIELD</div>
+            <div class="final-line">— No third path.</div>
+            <div class="one-question">
+              <div class="question-text">Will the king wear iron tonight?</div>
+              <button class="forge-btn">CROWN ME</button>
+              <button class="not-today">NOT TODAY</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 4 -->
+      <div class="screen" data-stage="4">
+        <div class="vb-stage4">
+          <div class="flash"></div>
+          <div class="shockwave"></div>
+          <div class="shockwave"></div>
+          <div class="shockwave"></div>
+          <div class="explosion-particles">
+            <span class="particle" style="--bx: 180px; --by: -160px;"></span>
+            <span class="particle" style="--bx: -140px; --by: -180px;"></span>
+            <span class="particle" style="--bx: 160px; --by: 140px;"></span>
+            <span class="particle" style="--bx: -180px; --by: 120px;"></span>
+            <span class="particle" style="--bx: 220px; --by: 0px;"></span>
+            <span class="particle" style="--bx: -200px; --by: 30px;"></span>
+            <span class="particle" style="--bx: 60px; --by: -240px;"></span>
+            <span class="particle" style="--bx: -80px; --by: 220px;"></span>
+            <span class="particle" style="--bx: 240px; --by: -80px;"></span>
+            <span class="particle" style="--bx: -240px; --by: -60px;"></span>
+            <span class="particle" style="--bx: 100px; --by: 240px;"></span>
+            <span class="particle" style="--bx: -120px; --by: -220px;"></span>
+          </div>
+          <div class="final-msg">
+            <div class="stamp">CROWNED</div>
+            <div class="sub">BEGIN IN 3 · 2 · 1</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ VARIANT C ============ -->
+  <div class="variant-column variant-c">
+    <div class="variant-label">Variant C</div>
+    <div class="variant-sublabel">Charcoal · Bronze · White-Hot</div>
+    <div class="phone">
+
+      <!-- Stage 1 -->
+      <div class="screen active" data-stage="1">
+        <div class="screen-base" style="height:100%;">
+          <div class="vc-stage1" style="height:100%;">
+            <div class="topbar">
+              <span style="color:#8a8680;">←</span>
+              <span>FORGE COOLING</span>
+            </div>
+            <div class="title-block">
+              <div class="eyebrow">FORGE COLD</div>
+              <div class="anvil-icon">
+                <svg viewBox="0 0 72 72" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M8 32 L24 28 L48 28 L62 32 L62 38 L8 38 Z"/>
+                  <path d="M28 38 L28 50 L44 50 L44 38"/>
+                  <line x1="20" y1="50" x2="52" y2="50"/>
+                  <line x1="16" y1="56" x2="56" y2="56"/>
+                  <line x1="36" y1="24" x2="36" y2="28"/>
+                  <line x1="32" y1="20" x2="32" y2="24"/>
+                  <line x1="40" y1="20" x2="40" y2="24"/>
+                </svg>
+              </div>
+              <div class="title">GOD-<span class="accent">LEVEL</span></div>
+              <div class="sub">The iron must cool before it can be reheated.<br/>Return in due time.</div>
+            </div>
+            <div class="countdown-card">
+              <div class="countdown-label">FORGE REHEATS IN</div>
+              <div class="countdown-time">
+                <div class="time-block"><div class="num">4</div><div class="unit">DAYS</div></div>
+                <div class="time-block"><div class="num">11</div><div class="unit">HOURS</div></div>
+                <div class="time-block"><div class="num hot">23</div><div class="unit">MIN</div></div>
+              </div>
+              <div class="quote-line">"What we burn in the fire, the fire remembers." — Seneca</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 2 -->
+      <div class="screen" data-stage="2">
+        <div class="screen-base" style="height:100%;">
+          <div class="vc-stage2">
+            <div class="heat-bar"></div>
+            <div class="warn-eyebrow">FORGE AT TEMPERATURE</div>
+            <div class="warn-title">GOD-LEVEL</div>
+            <div class="warn-mode">MODE</div>
+            <div class="stats-row">
+              <div class="stat"><div class="val">45<span style="font-size:14px;">MIN</span></div><div class="lab">DURATION</div></div>
+              <div class="stat"><div class="val">MAX</div><div class="lab">EFFORT</div></div>
+            </div>
+            <div class="warn-body">
+              Steel is shaped only when white-hot. You step into the forge now and you do not step out the same.<br/><br/>
+              Five shields. One Titan mark. The work is the reward.
+            </div>
+            <div class="warn-cta-area">
+              <button class="btn-primary">STEP INTO THE FORGE</button>
+              <button class="btn-secondary">LET IT COOL</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 3 -->
+      <div class="screen" data-stage="3">
+        <div class="vc-stage3">
+          <div class="sparks">
+            <span class="spark" style="left:12%; animation-duration:3s; animation-delay:0s; --drift:80px;"></span>
+            <span class="spark" style="left:28%; animation-duration:4s; animation-delay:0.8s; --drift:-60px;"></span>
+            <span class="spark" style="left:45%; animation-duration:3.5s; animation-delay:1.2s; --drift:40px;"></span>
+            <span class="spark" style="left:62%; animation-duration:4.5s; animation-delay:0.4s; --drift:-90px;"></span>
+            <span class="spark" style="left:78%; animation-duration:3.2s; animation-delay:1.8s; --drift:50px;"></span>
+            <span class="spark" style="left:88%; animation-duration:4s; animation-delay:2.4s; --drift:-30px;"></span>
+            <span class="spark" style="left:38%; animation-duration:3.8s; animation-delay:2.8s; --drift:-50px;"></span>
+            <span class="spark" style="left:8%; animation-duration:4.2s; animation-delay:1.5s; --drift:70px;"></span>
+            <span class="spark" style="left:55%; animation-duration:3.5s; animation-delay:0.6s; --drift:-40px;"></span>
+            <span class="spark" style="left:70%; animation-duration:4s; animation-delay:2.2s; --drift:60px;"></span>
+          </div>
+          <div class="confirm-content">
+            <div class="final-eyebrow">WHITE HOT · NO TURNING BACK</div>
+            <div class="final-title">STRIKE<br/>OR<br/>STAND</div>
+            <div class="final-line">— The hammer waits.</div>
+            <div class="one-question">
+              <div class="question-text">Is the iron in you ready to be shaped?</div>
+              <button class="forge-btn">FORGE ME</button>
+              <button class="not-today">NOT TODAY</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage 4 -->
+      <div class="screen" data-stage="4">
+        <div class="vc-stage4">
+          <div class="flash"></div>
+          <div class="shockwave"></div>
+          <div class="shockwave"></div>
+          <div class="shockwave"></div>
+          <div class="explosion-particles">
+            <span class="particle" style="--bx: 180px; --by: -160px;"></span>
+            <span class="particle" style="--bx: -140px; --by: -180px;"></span>
+            <span class="particle" style="--bx: 160px; --by: 140px;"></span>
+            <span class="particle" style="--bx: -180px; --by: 120px;"></span>
+            <span class="particle" style="--bx: 220px; --by: 0px;"></span>
+            <span class="particle" style="--bx: -200px; --by: 30px;"></span>
+            <span class="particle" style="--bx: 60px; --by: -240px;"></span>
+            <span class="particle" style="--bx: -80px; --by: 220px;"></span>
+            <span class="particle" style="--bx: 240px; --by: -80px;"></span>
+            <span class="particle" style="--bx: -240px; --by: -60px;"></span>
+            <span class="particle" style="--bx: 100px; --by: 240px;"></span>
+            <span class="particle" style="--bx: -120px; --by: -220px;"></span>
+          </div>
+          <div class="final-msg">
+            <div class="stamp">FORGED</div>
+            <div class="sub">BEGIN IN 3 · 2 · 1</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="footer-note">
+  Tap the stage buttons at the top to walk all three variants through the cinematic sequence.<br/>
+  Stage 4 (explosion) replays each time you switch to it.
+</div>
+
+<script>
+  const buttons = document.querySelectorAll('.stage-btn');
+  const screens = document.querySelectorAll('.screen');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const stage = btn.dataset.stage;
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      screens.forEach(s => s.classList.remove('active'));
+      document.querySelectorAll(`.screen[data-stage="${stage}"]`).forEach(s => {
+        // For stage 4, force animation restart
+        if (stage === '4') {
+          s.classList.add('active');
+          // Restart explosion animations by cloning
+          const inner = s.querySelector('div');
+          if (inner) {
+            const clone = inner.cloneNode(true);
+            inner.replaceWith(clone);
+          }
+        } else {
+          s.classList.add('active');
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FORGE40 — Workout Player</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --display: 'Cinzel', serif;
+    --body: 'Manrope', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+
+    --forge-black: #0a0a0b;
+    --stone: #1c1b19;
+    --iron: #2e2d2a;
+    --iron-light: #3a3833;
+    --bronze: #8b6f3f;
+    --bronze-dark: #5a4827;
+    --blood: #8b0000;
+    --ember: #c9410b;
+    --bone: #e8e2d5;
+    --ash: #8a8680;
+    --ash-dark: #5a5852;
+    --gold: #c9a24b;
+
+    --sarge: #8b0000;
+    --kai: #c9410b;
+    --marcus: #6b8a8a;
+  }
+
+  body {
+    background: var(--forge-black);
+    font-family: var(--body);
+    color: var(--bone);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .demo-header {
+    padding: 40px 24px 24px;
+    text-align: center;
+    border-bottom: 1px solid var(--stone);
+  }
+  .demo-header h1 {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 28px;
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+  }
+  .demo-header p {
+    color: var(--ash);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+  }
+
+  .state-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 20px 24px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--stone);
+    background: #0f0f10;
+  }
+  .state-btn {
+    background: transparent;
+    border: 1px solid var(--iron);
+    color: var(--ash);
+    padding: 8px 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .state-btn:hover { color: var(--bone); border-color: var(--ash); }
+  .state-btn.active {
+    color: var(--bone);
+    background: rgba(139, 0, 0, 0.2);
+    border-color: var(--blood);
+  }
+
+  .demo-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    padding: 40px 24px;
+  }
+
+  /* Phone frame */
+  .phone {
+    width: 400px;
+    max-width: 100%;
+    height: 820px;
+    background: #000;
+    border: 8px solid #1a1a1a;
+    border-radius: 44px;
+    box-shadow:
+      0 0 0 1px #2a2a2a,
+      0 30px 60px rgba(0,0,0,0.6),
+      inset 0 0 0 2px #0a0a0a;
+    position: relative;
+    overflow: hidden;
+  }
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 8px; left: 50%;
+    transform: translateX(-50%);
+    width: 100px; height: 28px;
+    background: #000;
+    border-radius: 0 0 18px 18px;
+    z-index: 100;
+  }
+
+  .screen {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(139, 0, 0, 0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(201, 65, 11, 0.04) 0%, transparent 60%),
+      linear-gradient(180deg, #0a0a0b 0%, #14110f 100%);
+    display: none;
+  }
+  .screen.active { display: block; }
+
+  .screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+      radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.008) 1px, transparent 1px);
+    background-size: 60px 60px, 80px 80px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* TOP BAR (in-workout) */
+  .player-topbar {
+    position: relative;
+    z-index: 5;
+    padding: 60px 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .player-topbar .close {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--iron);
+    color: var(--ash);
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 300;
+  }
+  .player-topbar .workout-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--ash);
+  }
+  .audio-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--bronze);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    background: transparent;
+    border: 1px solid var(--iron);
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  .audio-toggle.muted {
+    color: var(--ash);
+  }
+  .audio-toggle svg {
+    width: 11px;
+    height: 11px;
+  }
+
+  /* PROGRESS BAR (sticky across most states) */
+  .progress-strip {
+    padding: 20px 20px 0;
+    position: relative;
+    z-index: 5;
+  }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--ash);
+    margin-bottom: 6px;
+  }
+  .progress-track {
+    height: 2px;
+    background: var(--stone);
+    position: relative;
+  }
+  .progress-fill {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--bronze), var(--ember));
+    box-shadow: 0 0 6px rgba(201, 65, 11, 0.4);
+  }
+
+  /* =================================================================
+     STATE 1: PRE-WORKOUT ENERGY CHECK
+     ================================================================= */
+  .state-1-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    padding: 60px 24px 30px;
+    display: flex;
+    flex-direction: column;
+  }
+  .state-1-top {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .s1-back {
+    position: absolute;
+    top: 60px; left: 20px;
+    color: var(--ash);
+    font-size: 22px;
+    text-decoration: none;
+  }
+  .s1-eyebrow {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    color: var(--ash);
+    margin-bottom: 14px;
+  }
+  .s1-title {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 26px;
+    letter-spacing: 0.04em;
+    color: var(--bone);
+    line-height: 1.15;
+    margin-bottom: 4px;
+  }
+  .s1-meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ash);
+  }
+  .s1-quote-card {
+    background: linear-gradient(180deg, rgba(28, 27, 25, 0.7) 0%, rgba(20, 17, 15, 0.9) 100%);
+    border: 1px solid var(--iron);
+    padding: 22px 22px;
+    margin-bottom: 32px;
+    position: relative;
+    text-align: center;
+  }
+  .s1-quote-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 20%; right: 20%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blood), transparent);
+  }
+  .s1-coach-line {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--bronze);
+    margin-bottom: 12px;
+  }
+  .s1-quote {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--bone);
+  }
+
+  .s1-question {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .s1-question-label {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.05em;
+    color: var(--bone);
+    margin-bottom: 6px;
+  }
+  .s1-question-sub {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--ash);
+  }
+
+  .energy-scale {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 4px;
+    margin-bottom: 14px;
+  }
+  .energy-bar {
+    aspect-ratio: 1 / 3;
+    background: var(--stone);
+    border: 1px solid var(--iron);
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .energy-bar:hover {
+    background: var(--iron-light);
+  }
+  .energy-bar.active {
+    background: linear-gradient(180deg, var(--ember), var(--blood));
+    border-color: var(--ember);
+    box-shadow: 0 0 10px rgba(201, 65, 11, 0.5);
+  }
+  .energy-bar.dimmed {
+    opacity: 0.45;
+  }
+  .energy-scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--ash);
+    margin-bottom: 30px;
+  }
+
+  .s1-action {
+    margin-top: auto;
+  }
+  .s1-action-btn {
+    width: 100%;
+    background: var(--blood);
+    color: var(--bone);
+    border: none;
+    padding: 18px;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.4em;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 0 24px rgba(139, 0, 0, 0.3);
+  }
+  .s1-action-btn:hover {
+    background: #a30000;
+    box-shadow: 0 0 32px rgba(139, 0, 0, 0.5);
+  }
+
+  /* =================================================================
+     STATE 2: WARM-UP RUNNING
+     ================================================================= */
+  .state-2-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+  }
+  .block-header {
+    text-align: center;
+    padding: 20px 24px 24px;
+  }
+  .block-header-eyebrow {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    color: var(--bronze);
+    margin-bottom: 8px;
+  }
+  .block-header-title {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 0.06em;
+    color: var(--bone);
+  }
+
+  .movement-display {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+    position: relative;
+  }
+
+  .movement-count {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--ash);
+    margin-bottom: 16px;
+  }
+  .movement-name {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 34px;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    color: var(--bone);
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  .movement-specs {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--bronze);
+    margin-bottom: 24px;
+  }
+
+  .video-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--ash);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-decoration: none;
+    border: 1px solid var(--iron);
+    padding: 6px 12px;
+    margin-bottom: 32px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .video-link:hover {
+    color: var(--bronze);
+    border-color: var(--bronze);
+  }
+  .video-link svg {
+    width: 11px;
+    height: 11px;
+  }
+
+  .timer-display {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .timer-number {
+    font-family: var(--mono);
+    font-size: 72px;
+    font-weight: 800;
+    color: var(--bone);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .timer-number .colon { color: var(--ash); }
+  .timer-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--ash);
+    margin-top: 8px;
+  }
+
+  /* Coach text overlay */
+  .coach-cue {
+    background: linear-gradient(180deg, rgba(28, 27, 25, 0.85) 0%, rgba(20, 17, 15, 0.95) 100%);
+    border-left: 3px solid var(--blood);
+    padding: 14px 18px;
+    margin: 0 24px 20px;
+    position: relative;
+  }
+  .coach-cue-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: var(--blood);
+    margin-bottom: 4px;
+  }
+  .coach-cue-text {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--bone);
+  }
+
+  .player-actions {
+    padding: 0 20px;
+    display: flex;
+    gap: 10px;
+  }
+  .player-action-btn {
+    flex: 1;
+    background: var(--blood);
+    color: var(--bone);
+    border: none;
+    padding: 18px;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.3em;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 0 20px rgba(139, 0, 0, 0.3);
+  }
+  .player-action-btn:hover {
+    background: #a30000;
+    box-shadow: 0 0 30px rgba(139, 0, 0, 0.5);
+  }
+  .player-action-btn.secondary {
+    flex: 0 0 auto;
+    width: 56px;
+    background: transparent;
+    border: 1px solid var(--iron);
+    color: var(--ash);
+    box-shadow: none;
+    padding: 18px 0;
+  }
+  .player-action-btn.secondary svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* =================================================================
+     STATE 3: ACTIVE SET (during a working set)
+     ================================================================= */
+  .state-3-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+  }
+  .round-banner {
+    text-align: center;
+    padding: 18px 24px;
+    background: rgba(139, 0, 0, 0.08);
+    border-bottom: 1px solid rgba(139, 0, 0, 0.3);
+    border-top: 1px solid rgba(139, 0, 0, 0.3);
+  }
+  .round-banner-eyebrow {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    color: var(--ember);
+    margin-bottom: 6px;
+  }
+  .round-banner-title {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 0.1em;
+    color: var(--bone);
+  }
+
+  /* Big timer for active set */
+  .timer-display.active {
+    margin: 30px 0 24px;
+  }
+  .timer-display.active .timer-number {
+    font-size: 100px;
+    color: var(--ember);
+    text-shadow: 0 0 30px rgba(201, 65, 11, 0.4);
+  }
+  .timer-display.active .timer-label {
+    color: var(--ember);
+    letter-spacing: 0.4em;
+  }
+
+  /* =================================================================
+     STATE 4: REST BETWEEN SETS
+     ================================================================= */
+  .state-4-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+  }
+  .rest-banner {
+    text-align: center;
+    padding: 18px 24px;
+    background: rgba(107, 138, 138, 0.08);
+    border-bottom: 1px solid rgba(107, 138, 138, 0.3);
+    border-top: 1px solid rgba(107, 138, 138, 0.3);
+  }
+  .rest-banner-eyebrow {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    color: var(--marcus);
+    margin-bottom: 6px;
+  }
+  .rest-banner-title {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 0.1em;
+    color: var(--bone);
+  }
+  .rest-timer-number {
+    color: var(--marcus) !important;
+    text-shadow: 0 0 30px rgba(107, 138, 138, 0.3) !important;
+  }
+
+  .up-next-card {
+    margin: 0 24px 20px;
+    padding: 16px 18px;
+    background: linear-gradient(180deg, rgba(20, 17, 15, 0.6) 0%, rgba(14, 12, 10, 0.8) 100%);
+    border: 1px solid var(--iron);
+  }
+  .up-next-eyebrow {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--ash);
+    margin-bottom: 8px;
+  }
+  .up-next-name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--bone);
+    margin-bottom: 4px;
+  }
+  .up-next-specs {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--bronze);
+  }
+
+  /* =================================================================
+     STATE 5: MID-WORKOUT CHECK-IN MODAL
+     ================================================================= */
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 20px;
+  }
+  .checkin-modal {
+    background: linear-gradient(180deg, rgba(28, 27, 25, 0.95) 0%, rgba(20, 17, 15, 1) 100%);
+    border: 1px solid var(--iron-light);
+    padding: 32px 24px;
+    position: relative;
+  }
+  .checkin-modal::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 15%; right: 15%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blood), transparent);
+  }
+  .checkin-eyebrow {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    color: var(--ember);
+    margin-bottom: 12px;
+  }
+  .checkin-coach {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ash);
+    margin-bottom: 14px;
+  }
+  .checkin-question {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1.3;
+    text-align: center;
+    color: var(--bone);
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+  .checkin-sub {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 12px;
+    color: var(--ash);
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .checkin-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .checkin-opt {
+    background: transparent;
+    border: 1px solid var(--iron);
+    color: var(--bone);
+    padding: 16px 18px;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: all 0.2s;
+  }
+  .checkin-opt:hover {
+    border-color: var(--bronze);
+    background: rgba(139, 111, 63, 0.08);
+  }
+  .checkin-opt-marker {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: 0.05em;
+    width: 28px;
+    flex-shrink: 0;
+  }
+  .checkin-opt[data-choice="light"] .checkin-opt-marker { color: var(--marcus); }
+  .checkin-opt[data-choice="right"] .checkin-opt-marker { color: var(--bronze); }
+  .checkin-opt[data-choice="heavy"] .checkin-opt-marker { color: var(--ember); }
+  .checkin-opt-body {
+    flex: 1;
+  }
+  .checkin-opt-label {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    margin-bottom: 2px;
+  }
+  .checkin-opt-cue {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--ash);
+  }
+
+  /* =================================================================
+     STATE 6: FINISHER (high-intensity push)
+     ================================================================= */
+  .state-6-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    background: radial-gradient(ellipse at 50% 50%, rgba(201, 65, 11, 0.06) 0%, transparent 70%);
+  }
+  .finisher-banner {
+    text-align: center;
+    padding: 18px 24px;
+    background: linear-gradient(90deg, transparent 0%, rgba(201, 65, 11, 0.15) 50%, transparent 100%);
+    border-bottom: 1px solid var(--ember);
+    border-top: 1px solid var(--ember);
+  }
+  .finisher-banner-eyebrow {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.5em;
+    color: var(--ember);
+    margin-bottom: 6px;
+    text-shadow: 0 0 10px rgba(201, 65, 11, 0.4);
+  }
+  .finisher-banner-title {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 22px;
+    letter-spacing: 0.15em;
+    color: var(--bone);
+    text-shadow: 0 0 14px rgba(201, 65, 11, 0.3);
+  }
+  .timer-display.finisher .timer-number {
+    color: var(--ember);
+    text-shadow: 0 0 40px rgba(201, 65, 11, 0.6);
+    font-size: 110px;
+  }
+
+  /* =================================================================
+     STATE 7: POST-WORKOUT RATING (mandatory)
+     ================================================================= */
+  .state-7-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    padding: 60px 24px 30px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .state-7-content::-webkit-scrollbar { display: none; }
+
+  .s7-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .s7-eyebrow {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    color: var(--bronze);
+    margin-bottom: 12px;
+  }
+  .s7-title {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 28px;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+    color: var(--bone);
+    margin-bottom: 6px;
+  }
+  .s7-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ash);
+  }
+
+  .s7-stamp {
+    text-align: center;
+    margin: 0 0 28px;
+    padding: 16px 24px;
+    background: linear-gradient(180deg, rgba(139, 111, 63, 0.15) 0%, rgba(60, 40, 18, 0.3) 100%);
+    border: 1px solid var(--bronze);
+    position: relative;
+  }
+  .s7-stamp::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 30%; right: 30%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--bronze), transparent);
+  }
+  .s7-stamp-value {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 32px;
+    letter-spacing: 0.1em;
+    color: var(--bronze);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .s7-stamp-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--ash);
+  }
+  .s7-stamp-bonus {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--ember);
+    margin-top: 8px;
+  }
+
+  .rating-block {
+    margin-bottom: 24px;
+  }
+  .rating-recap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    background: rgba(28, 27, 25, 0.5);
+    border: 1px dashed var(--iron);
+    margin-bottom: 24px;
+  }
+  .rating-recap-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--ash);
+  }
+  .rating-recap-value {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--bronze);
+    letter-spacing: 0.1em;
+  }
+  .rating-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+  .rating-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--ash);
+  }
+  .rating-value {
+    font-family: var(--mono);
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--bone);
+  }
+  .rating-slider {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 3px;
+  }
+  .rating-tick {
+    height: 10px;
+    background: var(--stone);
+    border: 1px solid var(--iron);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .rating-tick.active {
+    background: linear-gradient(180deg, var(--bronze), var(--bronze-dark));
+    border-color: var(--bronze);
+  }
+  .rating-tick.dimmed {
+    opacity: 0.4;
+  }
+  .rating-tick.intensity.active {
+    background: linear-gradient(180deg, var(--ember), var(--blood));
+    border-color: var(--ember);
+    box-shadow: 0 0 6px rgba(201, 65, 11, 0.4);
+  }
+
+  .note-input {
+    margin: 20px 0 24px;
+  }
+  .note-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--ash);
+    margin-bottom: 8px;
+  }
+  .note-field {
+    width: 100%;
+    background: rgba(28, 27, 25, 0.7);
+    border: 1px solid var(--iron);
+    color: var(--bone);
+    padding: 12px 14px;
+    font-family: var(--body);
+    font-size: 13px;
+    font-style: italic;
+    resize: none;
+    height: 60px;
+  }
+  .note-field::placeholder { color: var(--ash-dark); font-style: italic; }
+  .note-field:focus {
+    outline: none;
+    border-color: var(--bronze);
+  }
+
+  .submit-btn {
+    width: 100%;
+    background: var(--blood);
+    color: var(--bone);
+    border: none;
+    padding: 18px;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.4em;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 0 24px rgba(139, 0, 0, 0.3);
+    margin-top: auto;
+  }
+  .submit-btn:hover {
+    background: #a30000;
+    box-shadow: 0 0 32px rgba(139, 0, 0, 0.5);
+  }
+
+  /* Footer */
+  .footer-note {
+    text-align: center;
+    padding: 40px 24px 60px;
+    color: var(--ash-dark);
+    font-size: 12px;
+    font-family: var(--mono);
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto;
+    border-top: 1px solid var(--stone);
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-header">
+  <h1>WORKOUT PLAYER</h1>
+  <p>7 states · single main view · audio + text · Sarge leads this session</p>
+</div>
+
+<div class="state-toggle">
+  <button class="state-btn active" data-state="1">1 · ENERGY</button>
+  <button class="state-btn" data-state="2">2 · WARM-UP</button>
+  <button class="state-btn" data-state="3">3 · ACTIVE SET</button>
+  <button class="state-btn" data-state="4">4 · REST</button>
+  <button class="state-btn" data-state="5">5 · CHECK-IN</button>
+  <button class="state-btn" data-state="6">6 · FINISHER</button>
+  <button class="state-btn" data-state="7">7 · RATING</button>
+</div>
+
+<div class="demo-grid">
+  <div class="phone">
+
+    <!-- ============ STATE 1: PRE-WORKOUT ENERGY CHECK ============ -->
+    <div class="screen active" data-state="1">
+      <div class="state-1-content">
+        <a class="s1-back">←</a>
+        <div class="state-1-top">
+          <div class="s1-eyebrow">— BEFORE WE BEGIN —</div>
+          <div class="s1-title">Week 2, Day 1.<br/>More Iron.</div>
+          <div class="s1-meta" style="margin-top:8px;">27 MIN · SARGE · KB STRENGTH</div>
+        </div>
+
+        <div class="s1-quote-card">
+          <div class="s1-coach-line">— SARGE —</div>
+          <div class="s1-quote">"Tell me where you're at. Honest, not heroic. The whole session pivots on this number."</div>
+        </div>
+
+        <div class="s1-question">
+          <div class="s1-question-label">How's your energy?</div>
+          <div class="s1-question-sub">1 = SPENT  ·  10 = LOADED</div>
+        </div>
+
+        <div class="energy-scale">
+          <div class="energy-bar dimmed"></div>
+          <div class="energy-bar dimmed"></div>
+          <div class="energy-bar"></div>
+          <div class="energy-bar"></div>
+          <div class="energy-bar"></div>
+          <div class="energy-bar"></div>
+          <div class="energy-bar active"></div>
+          <div class="energy-bar"></div>
+          <div class="energy-bar"></div>
+          <div class="energy-bar"></div>
+        </div>
+        <div class="energy-scale-labels">
+          <span>1</span>
+          <span style="color:var(--bone);">7</span>
+          <span>10</span>
+        </div>
+
+        <div class="s1-action">
+          <button class="s1-action-btn">CONFIRM · BEGIN</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ STATE 2: WARM-UP ============ -->
+    <div class="screen" data-state="2">
+      <div class="player-topbar">
+        <button class="close">✕</button>
+        <span class="workout-label">WK 2 · DAY 1 · SARGE</span>
+        <button class="audio-toggle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 5 L6 9 H2 V15 H6 L11 19 Z"/>
+            <path d="M15 9 a3 3 0 0 1 0 6"/>
+            <path d="M18 6 a7 7 0 0 1 0 12"/>
+          </svg>
+          AUDIO ON
+        </button>
+      </div>
+
+      <div class="progress-strip">
+        <div class="progress-meta">
+          <span>WARM-UP</span>
+          <span>0:32 / 27:00</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:3%;"></div></div>
+      </div>
+
+      <div class="state-2-content">
+        <div class="block-header">
+          <div class="block-header-eyebrow">— WARM-UP · MOVE 2 OF 3 —</div>
+          <div class="block-header-title">Loosen the hinge.</div>
+        </div>
+
+        <div class="movement-display">
+          <div class="movement-count">UP NEXT · GOBLET SQUAT</div>
+          <div class="movement-name">Halos</div>
+          <div class="movement-specs">25LB · 5 EACH WAY</div>
+          <a class="video-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="10 8 16 12 10 16" fill="currentColor"/>
+              <circle cx="12" cy="12" r="9"/>
+            </svg>
+            WATCH DEMO
+          </a>
+          <div class="timer-display">
+            <div class="timer-number">00<span class="colon">:</span>45</div>
+            <div class="timer-label">TIME REMAINING</div>
+          </div>
+        </div>
+
+        <div class="coach-cue">
+          <div class="coach-cue-label">— SARGE —</div>
+          <div class="coach-cue-text">"Slow circles around the head. Don't shrug your shoulders to your ears. Keep the elbows soft."</div>
+        </div>
+
+        <div class="player-actions">
+          <button class="player-action-btn secondary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="6" y="4" width="4" height="16"/>
+              <rect x="14" y="4" width="4" height="16"/>
+            </svg>
+          </button>
+          <button class="player-action-btn">NEXT</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ STATE 3: ACTIVE SET ============ -->
+    <div class="screen" data-state="3">
+      <div class="player-topbar">
+        <button class="close">✕</button>
+        <span class="workout-label">WK 2 · DAY 1 · SARGE</span>
+        <button class="audio-toggle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 5 L6 9 H2 V15 H6 L11 19 Z"/>
+            <path d="M15 9 a3 3 0 0 1 0 6"/>
+          </svg>
+          AUDIO ON
+        </button>
+      </div>
+
+      <div class="progress-strip">
+        <div class="progress-meta">
+          <span>MAIN · ROUND 2 / 4</span>
+          <span>11:24 / 27:00</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:42%;"></div></div>
+      </div>
+
+      <div class="state-3-content">
+        <div class="round-banner">
+          <div class="round-banner-eyebrow">— ROUND 2 OF 4 · MOVE 3 OF 6 —</div>
+          <div class="round-banner-title">WORK · 45 SECONDS</div>
+        </div>
+
+        <div class="movement-display">
+          <div class="movement-name">Strict Press</div>
+          <div class="movement-specs">20LB · RIGHT ARM · 45s</div>
+          <a class="video-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="10 8 16 12 10 16" fill="currentColor"/>
+              <circle cx="12" cy="12" r="9"/>
+            </svg>
+            WATCH DEMO
+          </a>
+          <div class="timer-display active">
+            <div class="timer-number">00<span class="colon">:</span>28</div>
+            <div class="timer-label">WORK</div>
+          </div>
+        </div>
+
+        <div class="coach-cue">
+          <div class="coach-cue-label">— SARGE · CUE —</div>
+          <div class="coach-cue-text">"Pack the shoulder. Don't lean back. Press, don't push. The bell goes overhead, not the spine."</div>
+        </div>
+
+        <div class="player-actions">
+          <button class="player-action-btn secondary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="6" y="4" width="4" height="16"/>
+              <rect x="14" y="4" width="4" height="16"/>
+            </svg>
+          </button>
+          <button class="player-action-btn">FINISHED EARLY</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ STATE 4: REST ============ -->
+    <div class="screen" data-state="4">
+      <div class="player-topbar">
+        <button class="close">✕</button>
+        <span class="workout-label">WK 2 · DAY 1 · SARGE</span>
+        <button class="audio-toggle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 5 L6 9 H2 V15 H6 L11 19 Z"/>
+            <path d="M15 9 a3 3 0 0 1 0 6"/>
+          </svg>
+          AUDIO ON
+        </button>
+      </div>
+
+      <div class="progress-strip">
+        <div class="progress-meta">
+          <span>MAIN · ROUND 2 / 4</span>
+          <span>12:09 / 27:00</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:45%;"></div></div>
+      </div>
+
+      <div class="state-4-content">
+        <div class="rest-banner">
+          <div class="rest-banner-eyebrow">— REST · BREATHE —</div>
+          <div class="rest-banner-title">15 SECONDS</div>
+        </div>
+
+        <div class="movement-display">
+          <div class="timer-display active" style="margin-top: 20px;">
+            <div class="timer-number rest-timer-number">00<span class="colon">:</span>11</div>
+            <div class="timer-label" style="color: var(--marcus);">REST</div>
+          </div>
+        </div>
+
+        <div class="up-next-card">
+          <div class="up-next-eyebrow">— UP NEXT —</div>
+          <div class="up-next-name">Strict Press · Left Arm</div>
+          <div class="up-next-specs">20LB · 45 SECONDS</div>
+        </div>
+
+        <div class="coach-cue">
+          <div class="coach-cue-label">— SARGE —</div>
+          <div class="coach-cue-text">"Switch hands. Same form. Both shoulders earn their keep."</div>
+        </div>
+
+        <div class="player-actions">
+          <button class="player-action-btn secondary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="6" y="4" width="4" height="16"/>
+              <rect x="14" y="4" width="4" height="16"/>
+            </svg>
+          </button>
+          <button class="player-action-btn">SKIP REST</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ STATE 5: MID-WORKOUT CHECK-IN ============ -->
+    <div class="screen" data-state="5">
+      <!-- Underlying state-3 dimmed in background -->
+      <div class="player-topbar">
+        <button class="close">✕</button>
+        <span class="workout-label">WK 2 · DAY 1 · SARGE</span>
+        <button class="audio-toggle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 5 L6 9 H2 V15 H6 L11 19 Z"/>
+            <path d="M15 9 a3 3 0 0 1 0 6"/>
+          </svg>
+          AUDIO ON
+        </button>
+      </div>
+      <div class="progress-strip">
+        <div class="progress-meta">
+          <span>HALFWAY POINT</span>
+          <span>13:30 / 27:00</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:50%;"></div></div>
+      </div>
+
+      <div class="modal-backdrop">
+        <div class="checkin-modal">
+          <div class="checkin-eyebrow">— HALFWAY · CHECK-IN —</div>
+          <div class="checkin-coach">SARGE</div>
+          <div class="checkin-question">How's that landing?</div>
+          <div class="checkin-sub">— The rest of the workout depends on this. —</div>
+          <div class="checkin-options">
+            <button class="checkin-opt" data-choice="light">
+              <span class="checkin-opt-marker">L</span>
+              <span class="checkin-opt-body">
+                <span class="checkin-opt-label">LIGHT</span>
+                <span class="checkin-opt-cue">I have more to give</span>
+              </span>
+            </button>
+            <button class="checkin-opt" data-choice="right">
+              <span class="checkin-opt-marker">R</span>
+              <span class="checkin-opt-body">
+                <span class="checkin-opt-label">RIGHT</span>
+                <span class="checkin-opt-cue">Working hard, holding form</span>
+              </span>
+            </button>
+            <button class="checkin-opt" data-choice="heavy">
+              <span class="checkin-opt-marker">H</span>
+              <span class="checkin-opt-body">
+                <span class="checkin-opt-label">HEAVY</span>
+                <span class="checkin-opt-cue">Bell wins, form is slipping</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ STATE 6: FINISHER ============ -->
+    <div class="screen" data-state="6">
+      <div class="player-topbar">
+        <button class="close">✕</button>
+        <span class="workout-label">WK 2 · DAY 1 · SARGE</span>
+        <button class="audio-toggle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 5 L6 9 H2 V15 H6 L11 19 Z"/>
+            <path d="M15 9 a3 3 0 0 1 0 6"/>
+          </svg>
+          AUDIO ON
+        </button>
+      </div>
+
+      <div class="progress-strip">
+        <div class="progress-meta">
+          <span>FINISHER · 3 MIN EMOM</span>
+          <span>24:18 / 27:00</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:90%; background: linear-gradient(90deg, var(--ember), #ffaa44);"></div></div>
+      </div>
+
+      <div class="state-6-content">
+        <div class="finisher-banner">
+          <div class="finisher-banner-eyebrow">— FINISHER · ROUND 3 OF 3 —</div>
+          <div class="finisher-banner-title">EMPTY THE BELL</div>
+        </div>
+
+        <div class="movement-display">
+          <div class="movement-name">Swings</div>
+          <div class="movement-specs">25LB · 15 REPS · TOP OF MINUTE</div>
+          <div class="timer-display active finisher">
+            <div class="timer-number">00<span class="colon">:</span>34</div>
+            <div class="timer-label" style="color:var(--ember);">FINISH STRONG</div>
+          </div>
+        </div>
+
+        <div class="coach-cue" style="border-color: var(--ember);">
+          <div class="coach-cue-label" style="color: var(--ember);">— SARGE · LAST PUSH —</div>
+          <div class="coach-cue-text">"Last round. Last fifteen. The bell goes down empty. Finish the way you started."</div>
+        </div>
+
+        <div class="player-actions">
+          <button class="player-action-btn secondary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="6" y="4" width="4" height="16"/>
+              <rect x="14" y="4" width="4" height="16"/>
+            </svg>
+          </button>
+          <button class="player-action-btn" style="background: var(--ember); box-shadow: 0 0 30px rgba(201, 65, 11, 0.5);">FINISHED EARLY</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ STATE 7: POST-WORKOUT RATING ============ -->
+    <div class="screen" data-state="7">
+      <div class="state-7-content">
+        <div class="s7-header">
+          <div class="s7-eyebrow">— WORK COMPLETE —</div>
+          <div class="s7-title">Week 2, Day 1.<br/>Logged.</div>
+          <div class="s7-sub">27 MIN · SARGE · KB STRENGTH</div>
+        </div>
+
+        <div class="s7-stamp">
+          <div class="s7-stamp-value">+2</div>
+          <div class="s7-stamp-label">SHIELDS · PENDING RATING</div>
+          <div class="s7-stamp-bonus">+1 INTENSITY BONUS LOCKS IF YOU RATE ≥ 8</div>
+        </div>
+
+        <div class="rating-recap">
+          <span class="rating-recap-label">STARTING ENERGY · LOGGED PRE-SESSION</span>
+          <span class="rating-recap-value">7 / 10</span>
+        </div>
+
+        <div class="rating-block">
+          <div class="rating-row">
+            <span class="rating-label">ENERGY · AFTER</span>
+            <span class="rating-value">8</span>
+          </div>
+          <div class="rating-slider">
+            <div class="rating-tick dimmed"></div>
+            <div class="rating-tick dimmed"></div>
+            <div class="rating-tick"></div>
+            <div class="rating-tick"></div>
+            <div class="rating-tick"></div>
+            <div class="rating-tick"></div>
+            <div class="rating-tick"></div>
+            <div class="rating-tick active"></div>
+            <div class="rating-tick"></div>
+            <div class="rating-tick"></div>
+          </div>
+        </div>
+
+        <div class="rating-block">
+          <div class="rating-row">
+            <span class="rating-label">INTENSITY</span>
+            <span class="rating-value" style="color:var(--ember);">8</span>
+          </div>
+          <div class="rating-slider">
+            <div class="rating-tick dimmed"></div>
+            <div class="rating-tick dimmed"></div>
+            <div class="rating-tick"></div>
+            <div class="rating-tick"></div>
+            <div class="rating-tick"></div>
+            <div class="rating-tick"></div>
+            <div class="rating-tick"></div>
+            <div class="rating-tick intensity active"></div>
+            <div class="rating-tick"></div>
+            <div class="rating-tick"></div>
+          </div>
+        </div>
+
+        <div class="note-input">
+          <div class="note-label">A LINE FROM TODAY <span style="color:var(--ash-dark);">(OPTIONAL)</span></div>
+          <textarea class="note-field" placeholder="What did the work feel like?"></textarea>
+        </div>
+
+        <button class="submit-btn">LOG THE WORK</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer-note">
+  Click the state buttons above to walk through the full workout flow.<br/>
+  Mandatory rating in state 7 cannot be skipped; the workout is not "logged" until submitted.
+</div>
+
+<script>
+  const buttons = document.querySelectorAll('.state-btn');
+  const screens = document.querySelectorAll('.screen');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const state = btn.dataset.state;
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      screens.forEach(s => s.classList.remove('active'));
+      document.querySelector(`.screen[data-state="${state}"]`).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>

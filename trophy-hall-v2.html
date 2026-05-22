@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FORGE40 — Trophy Hall</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --display: 'Cinzel', serif;
+    --body: 'Manrope', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+
+    --forge-black: #0a0a0b;
+    --stone: #1c1b19;
+    --iron: #2e2d2a;
+    --iron-light: #3a3833;
+    --bronze: #8b6f3f;
+    --bronze-dark: #5a4827;
+    --blood: #8b0000;
+    --ember: #c9410b;
+    --bone: #e8e2d5;
+    --ash: #8a8680;
+    --ash-dark: #5a5852;
+    --gold: #c9a24b;
+    --silver: #b8b8b8;
+  }
+
+  body {
+    background: var(--forge-black);
+    font-family: var(--body);
+    color: var(--bone);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .demo-header {
+    padding: 40px 24px 24px;
+    text-align: center;
+    border-bottom: 1px solid var(--stone);
+  }
+  .demo-header h1 {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 28px;
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+  }
+  .demo-header p {
+    color: var(--ash);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+  }
+
+  .demo-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    padding: 40px 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .phone {
+    width: 400px;
+    max-width: 100%;
+    height: 820px;
+    background: #000;
+    border: 8px solid #1a1a1a;
+    border-radius: 44px;
+    box-shadow:
+      0 0 0 1px #2a2a2a,
+      0 30px 60px rgba(0,0,0,0.6),
+      inset 0 0 0 2px #0a0a0a;
+    position: relative;
+    overflow: hidden;
+  }
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 8px; left: 50%;
+    transform: translateX(-50%);
+    width: 100px; height: 28px;
+    background: #000;
+    border-radius: 0 0 18px 18px;
+    z-index: 100;
+  }
+
+  .screen {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow-y: auto;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(139, 0, 0, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(201, 65, 11, 0.06) 0%, transparent 60%),
+      linear-gradient(180deg, #0a0a0b 0%, #14110f 100%);
+    scrollbar-width: none;
+  }
+  .screen::-webkit-scrollbar { display: none; }
+
+  .screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+      radial-gradient(circle at 60% 70%, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+    background-size: 60px 60px, 80px 80px, 100px 100px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .top-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    padding: 60px 24px 16px;
+    background: linear-gradient(180deg, rgba(10, 10, 11, 0.95) 0%, rgba(10, 10, 11, 0.85) 80%, transparent 100%);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .top-header .back {
+    color: var(--ash);
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 300;
+  }
+  .top-header .title {
+    font-family: var(--display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4em;
+    color: var(--ash);
+  }
+  .top-header .spacer {
+    width: 22px;
+  }
+
+  .hall-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 0 90px;
+  }
+
+  /* RANK BANNER */
+  .rank-banner {
+    text-align: center;
+    padding: 28px 24px 36px;
+    position: relative;
+    border-bottom: 1px solid var(--stone);
+  }
+  .rank-banner::before {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 30%; right: 30%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blood), transparent);
+  }
+  .rank-eyebrow {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    color: var(--ash);
+    margin-bottom: 12px;
+  }
+  .rank-name {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 32px;
+    letter-spacing: 0.08em;
+    color: var(--bone);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .rank-titan {
+    font-family: var(--display);
+    font-size: 11px;
+    font-style: italic;
+    color: var(--ember);
+    letter-spacing: 0.15em;
+    margin-bottom: 14px;
+    text-shadow: 0 0 12px rgba(201, 65, 11, 0.4);
+  }
+  .rank-progress {
+    margin: 20px auto 0;
+    max-width: 260px;
+  }
+  .progress-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--ash);
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .progress-bar {
+    height: 4px;
+    background: var(--stone);
+    position: relative;
+    overflow: hidden;
+  }
+  .progress-fill {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--bronze), var(--ember));
+    box-shadow: 0 0 8px rgba(201, 65, 11, 0.5);
+  }
+
+  /* ALTAR */
+  .altar {
+    padding: 40px 16px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+  }
+  .altar::before {
+    content: '';
+    position: absolute;
+    top: 20px; bottom: 20px;
+    left: 50%;
+    width: 1px;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(139, 111, 63, 0.2) 20%,
+      rgba(139, 111, 63, 0.2) 80%,
+      transparent 100%);
+    pointer-events: none;
+  }
+
+  .tier-row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+  .tier-card {
+    width: 100%;
+    background: linear-gradient(180deg, rgba(28, 27, 25, 0.7) 0%, rgba(20, 17, 15, 0.9) 100%);
+    border: 1px solid var(--iron);
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  /* Pyramid widths: 4 tiers now */
+  .tier-row.tier-crown { max-width: 250px; }
+  .tier-row.tier-sword { max-width: 290px; }
+  .tier-row.tier-spear { max-width: 330px; }
+  .tier-row.tier-shield { max-width: 370px; }
+
+  .tier-card.locked {
+    opacity: 0.35;
+  }
+  .tier-card.locked .tier-icon {
+    filter: grayscale(1);
+  }
+
+  .tier-card.earned:hover {
+    border-color: var(--bronze);
+    background: linear-gradient(180deg, rgba(40, 30, 20, 0.8) 0%, rgba(28, 20, 12, 0.95) 100%);
+  }
+  .tier-card.locked:hover {
+    border-color: var(--iron-light);
+  }
+
+  /* Crown special treatment */
+  .tier-card.tier-crown.earned {
+    border-color: rgba(201, 162, 75, 0.5);
+    background: linear-gradient(180deg, rgba(50, 35, 18, 0.7) 0%, rgba(30, 20, 8, 0.95) 100%);
+    box-shadow: 0 0 30px rgba(201, 162, 75, 0.15);
+  }
+  .tier-card.tier-crown.earned::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .tier-icon {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tier-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .tier-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .tier-name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    color: var(--bone);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .tier-card.locked .tier-name {
+    color: var(--ash-dark);
+  }
+  .tier-card.tier-crown.earned .tier-name {
+    color: var(--gold);
+  }
+  .tier-meta {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--ash);
+    margin-bottom: 8px;
+  }
+  .tier-progress {
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    color: var(--ash-dark);
+  }
+  .tier-progress.earned { color: var(--bronze); }
+  .tier-progress.next { color: var(--ember); }
+
+  .tier-count {
+    text-align: right;
+    flex-shrink: 0;
+    min-width: 60px;
+  }
+  .tier-count .num {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--bone);
+    line-height: 1;
+  }
+  .tier-card.locked .tier-count .num {
+    color: var(--ash-dark);
+  }
+  .tier-card.tier-crown.earned .tier-count .num {
+    color: var(--gold);
+  }
+  .tier-count .label {
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    color: var(--ash);
+    margin-top: 4px;
+  }
+
+  .tier-recent {
+    display: flex;
+    gap: 4px;
+    margin-top: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .recent-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--bronze);
+    border-radius: 50%;
+    box-shadow: 0 0 6px rgba(139, 111, 63, 0.4);
+  }
+  .tier-card.tier-crown.earned .recent-dot {
+    background: var(--gold);
+    box-shadow: 0 0 8px rgba(201, 162, 75, 0.5);
+  }
+  .recent-overflow {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--ash);
+    margin-left: 4px;
+  }
+
+  /* DIVIDER */
+  .altar-divider {
+    width: 80%;
+    text-align: center;
+    margin: 32px auto 16px;
+    position: relative;
+  }
+  .altar-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--iron), transparent);
+  }
+  .altar-divider span {
+    position: relative;
+    background: var(--forge-black);
+    padding: 0 16px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    color: var(--ash);
+  }
+
+  /* TITAN */
+  .titan-section {
+    padding: 20px 24px 0;
+    margin-top: 8px;
+  }
+
+  .titan-header {
+    text-align: center;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .titan-eyebrow {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    color: var(--ember);
+    margin-bottom: 8px;
+    text-shadow: 0 0 10px rgba(201, 65, 11, 0.4);
+  }
+  .titan-title {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: 0.15em;
+    color: var(--bone);
+    margin-bottom: 6px;
+  }
+  .titan-sub {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 11px;
+    color: var(--ash);
+    letter-spacing: 0.03em;
+  }
+
+  .titan-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    padding: 16px;
+    background: linear-gradient(180deg, rgba(40, 20, 10, 0.4) 0%, rgba(20, 10, 5, 0.6) 100%);
+    border: 1px solid rgba(201, 65, 11, 0.2);
+    position: relative;
+    overflow: hidden;
+  }
+  .titan-grid::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--ember), transparent);
+  }
+
+  .titan-tile {
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, rgba(60, 20, 8, 0.6) 0%, rgba(30, 10, 4, 0.9) 100%);
+    border: 1px solid rgba(201, 65, 11, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .titan-tile.earned {
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.6) 0%, rgba(60, 0, 0, 0.95) 100%);
+    border-color: var(--ember);
+    box-shadow:
+      inset 0 0 12px rgba(201, 65, 11, 0.3),
+      0 0 8px rgba(201, 65, 11, 0.2);
+  }
+  .titan-tile.earned::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 200, 100, 0.15) 0%, transparent 60%);
+  }
+  .titan-tile svg {
+    width: 60%;
+    height: 60%;
+    color: var(--ember);
+    filter: drop-shadow(0 0 4px rgba(201, 65, 11, 0.5));
+  }
+  .titan-tile.empty svg {
+    color: rgba(90, 88, 82, 0.4);
+    filter: none;
+  }
+  .titan-tile .date {
+    position: absolute;
+    bottom: 3px;
+    font-family: var(--mono);
+    font-size: 7px;
+    color: rgba(232, 226, 213, 0.6);
+    letter-spacing: 0.1em;
+  }
+
+  .titan-count {
+    text-align: center;
+    margin-top: 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--ember);
+  }
+  .titan-count strong {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--bone);
+  }
+
+  /* ACTIVITY */
+  .activity-section {
+    padding: 32px 24px 20px;
+  }
+  .activity-header {
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    color: var(--ash);
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .activity-list {
+    background: linear-gradient(180deg, rgba(28, 27, 25, 0.5) 0%, rgba(20, 17, 15, 0.7) 100%);
+    border: 1px solid var(--iron);
+  }
+  .activity-row {
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--iron);
+  }
+  .activity-row:last-child { border-bottom: none; }
+  .activity-icon {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    background: rgba(139, 111, 63, 0.15);
+    border: 1px solid rgba(139, 111, 63, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .activity-icon.titan {
+    background: rgba(139, 0, 0, 0.3);
+    border-color: rgba(201, 65, 11, 0.5);
+  }
+  .activity-icon svg {
+    width: 60%;
+    height: 60%;
+    color: var(--bronze);
+  }
+  .activity-icon.titan svg {
+    color: var(--ember);
+    filter: drop-shadow(0 0 3px rgba(201, 65, 11, 0.6));
+  }
+  .activity-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .activity-text {
+    font-size: 12px;
+    color: var(--bone);
+    line-height: 1.3;
+  }
+  .activity-text strong {
+    font-family: var(--display);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+  }
+  .activity-text .titan-text {
+    color: var(--ember);
+  }
+  .activity-date {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--ash);
+    margin-top: 2px;
+  }
+
+  /* TAB BAR */
+  .tab-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    height: 70px;
+    background: linear-gradient(180deg, rgba(10, 10, 11, 0.85) 0%, rgba(10, 10, 11, 0.98) 100%);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--stone);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 50;
+    padding-bottom: 8px;
+  }
+  .tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: var(--ash-dark);
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .tab.active { color: var(--ember); }
+  .tab svg { width: 20px; height: 20px; }
+  .tab .label {
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.15em;
+  }
+
+  .footer-note {
+    text-align: center;
+    padding: 40px 24px 60px;
+    color: var(--ash-dark);
+    font-size: 12px;
+    font-family: var(--mono);
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto;
+    border-top: 1px solid var(--stone);
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-header">
+  <h1>TROPHY HALL</h1>
+  <p>4-tier ladder · Shield → Spear → Sword → Crown</p>
+</div>
+
+<div class="demo-grid">
+  <div class="phone">
+    <div class="screen">
+
+      <div class="top-header">
+        <a href="#" class="back">←</a>
+        <div class="title">TROPHY HALL</div>
+        <div class="spacer"></div>
+      </div>
+
+      <div class="hall-content">
+
+        <!-- RANK BANNER -->
+        <div class="rank-banner">
+          <div class="rank-eyebrow">CURRENT RANK</div>
+          <div class="rank-name">PHALANX LEADER</div>
+          <div class="rank-titan">— Titan-touched —</div>
+          <div class="rank-progress">
+            <div class="progress-label">
+              <span>TO STRATEGOS</span>
+              <span>3 / 5 SPEARS</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 60%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ALTAR -->
+        <div class="altar">
+
+          <!-- CROWN (locked) -->
+          <div class="tier-row tier-crown">
+            <div class="tier-card tier-crown locked">
+              <div class="tier-icon">
+                <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #5a5852;">
+                  <path d="M8 24 L14 44 L50 44 L56 24 L46 32 L40 14 L32 28 L24 14 L18 32 Z"/>
+                  <line x1="14" y1="48" x2="50" y2="48"/>
+                  <line x1="16" y1="52" x2="48" y2="52"/>
+                  <circle cx="32" cy="20" r="2" fill="currentColor"/>
+                  <circle cx="20" cy="26" r="1.5" fill="currentColor"/>
+                  <circle cx="44" cy="26" r="1.5" fill="currentColor"/>
+                </svg>
+              </div>
+              <div class="tier-info">
+                <div class="tier-name">CROWN</div>
+                <div class="tier-meta">4 SWORDS · LAUREL</div>
+                <div class="tier-progress next">0 OF 4 EARNED</div>
+              </div>
+              <div class="tier-count">
+                <div class="num">0</div>
+                <div class="label">CROWNS</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SWORD -->
+          <div class="tier-row tier-sword">
+            <div class="tier-card tier-sword earned">
+              <div class="tier-icon">
+                <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #b8b8b8;">
+                  <path d="M32 6 L36 40 L32 46 L28 40 Z" fill="rgba(184,184,184,0.2)"/>
+                  <line x1="32" y1="6" x2="32" y2="46"/>
+                  <line x1="22" y1="42" x2="42" y2="42" stroke-width="3" style="color:#8b6f3f;"/>
+                  <rect x="29" y="46" width="6" height="10" rx="0.5" fill="rgba(139,111,63,0.4)" style="color:#8b6f3f;"/>
+                  <circle cx="32" cy="58" r="2" fill="rgba(201,162,75,0.6)" style="color:#c9a24b;"/>
+                </svg>
+              </div>
+              <div class="tier-info">
+                <div class="tier-name">SWORD</div>
+                <div class="tier-meta">5 SPEARS · XIPHOS</div>
+                <div class="tier-progress earned">1 EARNED · 3 TO NEXT CROWN</div>
+                <div class="tier-recent">
+                  <span class="recent-dot"></span>
+                </div>
+              </div>
+              <div class="tier-count">
+                <div class="num">1</div>
+                <div class="label">SWORDS</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SPEAR -->
+          <div class="tier-row tier-spear">
+            <div class="tier-card tier-spear earned">
+              <div class="tier-icon">
+                <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #8b6f3f;">
+                  <path d="M32 4 L36 18 L32 22 L28 18 Z" fill="rgba(139,111,63,0.3)"/>
+                  <line x1="32" y1="22" x2="32" y2="56"/>
+                  <line x1="29" y1="56" x2="35" y2="56" stroke-width="3"/>
+                  <line x1="28" y1="28" x2="36" y2="28" stroke-width="1.5" opacity="0.6"/>
+                  <line x1="28" y1="44" x2="36" y2="44" stroke-width="1.5" opacity="0.6"/>
+                </svg>
+              </div>
+              <div class="tier-info">
+                <div class="tier-name">SPEAR</div>
+                <div class="tier-meta">10 SHIELDS · IRON DORY</div>
+                <div class="tier-progress earned">3 EARNED · 2 TO NEXT SWORD</div>
+                <div class="tier-recent">
+                  <span class="recent-dot"></span>
+                  <span class="recent-dot"></span>
+                  <span class="recent-dot"></span>
+                </div>
+              </div>
+              <div class="tier-count">
+                <div class="num">3</div>
+                <div class="label">SPEARS</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SHIELD -->
+          <div class="tier-row tier-shield">
+            <div class="tier-card tier-shield earned">
+              <div class="tier-icon">
+                <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #8b6f3f;">
+                  <circle cx="32" cy="32" r="24" fill="rgba(139,111,63,0.2)"/>
+                  <circle cx="32" cy="32" r="20" stroke-width="1.5" opacity="0.6"/>
+                  <circle cx="32" cy="32" r="6" fill="rgba(139,111,63,0.4)"/>
+                  <path d="M32 14 L34 26 L46 28 L36 36 L40 48 L32 42 L24 48 L28 36 L18 28 L30 26 Z" stroke-width="1" opacity="0.5"/>
+                </svg>
+              </div>
+              <div class="tier-info">
+                <div class="tier-name">SHIELD</div>
+                <div class="tier-meta">1 PER WORKOUT · ASPIS</div>
+                <div class="tier-progress earned">47 EARNED · 3 TO NEXT SPEAR</div>
+                <div class="tier-recent">
+                  <span class="recent-dot"></span>
+                  <span class="recent-dot"></span>
+                  <span class="recent-dot"></span>
+                  <span class="recent-dot"></span>
+                  <span class="recent-dot"></span>
+                  <span class="recent-dot"></span>
+                  <span class="recent-dot"></span>
+                  <span class="recent-dot"></span>
+                  <span class="recent-dot"></span>
+                  <span class="recent-dot"></span>
+                  <span class="recent-overflow">+37</span>
+                </div>
+              </div>
+              <div class="tier-count">
+                <div class="num">47</div>
+                <div class="label">SHIELDS</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="altar-divider"><span>PARALLEL TRACK</span></div>
+
+        <!-- TITAN -->
+        <div class="titan-section">
+          <div class="titan-header">
+            <div class="titan-eyebrow">GOD-LEVEL CONQUERED</div>
+            <div class="titan-title">TITAN MARKS</div>
+            <div class="titan-sub">— Forged in the white-hot fire —</div>
+          </div>
+
+          <div class="titan-grid">
+            <div class="titan-tile earned">
+              <svg viewBox="0 0 32 32" fill="currentColor">
+                <path d="M16 2 L18 12 L28 12 L20 18 L23 28 L16 22 L9 28 L12 18 L4 12 L14 12 Z"/>
+              </svg>
+              <div class="date">04/12</div>
+            </div>
+            <div class="titan-tile earned">
+              <svg viewBox="0 0 32 32" fill="currentColor">
+                <path d="M16 2 L18 12 L28 12 L20 18 L23 28 L16 22 L9 28 L12 18 L4 12 L14 12 Z"/>
+              </svg>
+              <div class="date">04/19</div>
+            </div>
+            <div class="titan-tile earned">
+              <svg viewBox="0 0 32 32" fill="currentColor">
+                <path d="M16 2 L18 12 L28 12 L20 18 L23 28 L16 22 L9 28 L12 18 L4 12 L14 12 Z"/>
+              </svg>
+              <div class="date">05/03</div>
+            </div>
+            <div class="titan-tile empty">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M16 2 L18 12 L28 12 L20 18 L23 28 L16 22 L9 28 L12 18 L4 12 L14 12 Z"/>
+              </svg>
+            </div>
+            <div class="titan-tile empty">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M16 2 L18 12 L28 12 L20 18 L23 28 L16 22 L9 28 L12 18 L4 12 L14 12 Z"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="titan-count">
+            <strong>3</strong> TITAN MARKS · NEXT GATE OPENS IN 4D
+          </div>
+        </div>
+
+        <!-- ACTIVITY -->
+        <div class="activity-section">
+          <div class="activity-header">— RECENT FORGE —</div>
+          <div class="activity-list">
+
+            <div class="activity-row">
+              <div class="activity-icon titan">
+                <svg viewBox="0 0 32 32" fill="currentColor">
+                  <path d="M16 2 L18 12 L28 12 L20 18 L23 28 L16 22 L9 28 L12 18 L4 12 L14 12 Z"/>
+                </svg>
+              </div>
+              <div class="activity-body">
+                <div class="activity-text"><strong class="titan-text">TITAN MARK</strong> earned. God-level conquered. +5 shields.</div>
+                <div class="activity-date">YESTERDAY · 06:47 AM</div>
+              </div>
+            </div>
+
+            <div class="activity-row">
+              <div class="activity-icon">
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="16" cy="16" r="12" fill="rgba(139,111,63,0.2)"/>
+                  <circle cx="16" cy="16" r="3" fill="currentColor"/>
+                </svg>
+              </div>
+              <div class="activity-body">
+                <div class="activity-text"><strong>+2 SHIELDS</strong>. Week 7, Day 3 complete. Intensity bonus.</div>
+                <div class="activity-date">2 DAYS AGO</div>
+              </div>
+            </div>
+
+            <div class="activity-row">
+              <div class="activity-icon">
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 2 L19 9 L26 9 L20 14 L22 22 L16 18 L10 22 L12 14 L6 9 L13 9 Z" fill="rgba(139,111,63,0.3)"/>
+                </svg>
+              </div>
+              <div class="activity-body">
+                <div class="activity-text"><strong>SPEAR</strong> forged. 10 shields claimed.</div>
+                <div class="activity-date">4 DAYS AGO</div>
+              </div>
+            </div>
+
+            <div class="activity-row">
+              <div class="activity-icon">
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="16" cy="16" r="12" fill="rgba(139,111,63,0.2)"/>
+                  <circle cx="16" cy="16" r="3" fill="currentColor"/>
+                </svg>
+              </div>
+              <div class="activity-body">
+                <div class="activity-text"><strong>+4 SHIELDS</strong>. 7-day streak bonus locked in.</div>
+                <div class="activity-date">5 DAYS AGO</div>
+              </div>
+            </div>
+
+            <div class="activity-row">
+              <div class="activity-icon">
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="16" cy="16" r="12" fill="rgba(139,111,63,0.2)"/>
+                  <circle cx="16" cy="16" r="3" fill="currentColor"/>
+                </svg>
+              </div>
+              <div class="activity-body">
+                <div class="activity-text"><strong>+1 SHIELD</strong>. Week 7, Day 1 complete.</div>
+                <div class="activity-date">6 DAYS AGO</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TAB BAR -->
+      <div class="tab-bar">
+        <a class="tab">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 11 L12 3 L21 11 L21 21 L3 21 Z"/>
+          </svg>
+          <div class="label">HOME</div>
+        </a>
+        <a class="tab">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="4" width="16" height="16"/>
+            <line x1="8" y1="9" x2="16" y2="9"/>
+            <line x1="8" y1="13" x2="16" y2="13"/>
+            <line x1="8" y1="17" x2="13" y2="17"/>
+          </svg>
+          <div class="label">PROGRAM</div>
+        </a>
+        <a class="tab active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="11" r="6" fill="rgba(201,65,11,0.2)"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+          </svg>
+          <div class="label">TROPHIES</div>
+        </a>
+        <a class="tab">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="20" x2="4" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="20" y1="20" x2="20" y2="14"/>
+          </svg>
+          <div class="label">STATS</div>
+        </a>
+        <a class="tab">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19 12 L21 12 M3 12 L5 12 M12 19 L12 21 M12 3 L12 5 M16.5 7.5 L18 6 M6 18 L7.5 16.5 M16.5 16.5 L18 18 M6 6 L7.5 7.5"/>
+          </svg>
+          <div class="label">SETTINGS</div>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="footer-note">
+  4 tiers · Shield (1/workout) → Spear (10 shields) → Sword (5 spears) → Crown (4 swords)<br/>
+  Shield row shows 47 earned with 10 dots + "+37" overflow treatment.
+</div>
+
+</body>
+</html>
