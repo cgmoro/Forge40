@@ -3,18 +3,23 @@
 import programData from '../data/program.json'
 import type { Workout, CoachId } from './types'
 
-// Raw JSON types (loose, from program.json)
-interface RawBlock {
-  id: string
+// Raw JSON types — actual program.json uses a `blocks` array with a `block` discriminator
+interface RawMovement {
   name: string
-  type: string
-  sets?: number
-  reps?: number | string
-  duration_seconds?: number
+  reps?: string | number
   weight?: string
-  side?: string
-  video_id?: string
+  video_key?: string
   cue?: string
+}
+
+interface RawBlockEntry {
+  block: string // 'intro' | 'warmup' | 'main' | 'finisher' | 'outro'
+  narration?: string
+  duration_sec?: number
+  structure?: string
+  movements?: RawMovement[]
+  narration_per_round?: string[]
+  midpoint_checkin?: boolean
 }
 
 interface RawWorkout {
@@ -24,11 +29,14 @@ interface RawWorkout {
   title: string
   type: string
   duration_min: number
+  // New format: blocks array
+  blocks?: RawBlockEntry[]
+  // Legacy format fields (kept for compatibility)
   coach_intro?: string
   coach_cues?: Record<string, string>
-  warmup?: RawBlock[]
-  main?: RawBlock[]
-  finisher?: RawBlock[]
+  warmup?: unknown[]
+  main?: unknown[]
+  finisher?: unknown[]
   round_narration?: string[]
   substitution_light?: string
   substitution_heavy?: string
@@ -42,7 +50,60 @@ interface RawWeek {
   summary?: string
 }
 
+import type { Block } from './types'
+
+function movementsToBlocks(movements: RawMovement[]): Block[] {
+  return movements.map((m, i) => ({
+    id: `m-${i}`,
+    name: m.name,
+    type: 'movement' as const,
+    reps: typeof m.reps === 'number' ? m.reps : undefined,
+    weight: m.weight,
+    video_id: m.video_key,
+    cue: m.cue,
+  }))
+}
+
 function toWorkout(raw: RawWorkout, week: number): Workout {
+  // Parse blocks array (new format)
+  let warmup: Block[] = []
+  let main: Block[] = []
+  let finisher: Block[] | undefined = undefined
+  let coachIntro = raw.coach_intro ?? ''
+  let roundNarration: string[] | undefined = undefined
+
+  if (raw.blocks) {
+    for (const b of raw.blocks) {
+      if (b.block === 'intro' && b.narration) {
+        coachIntro = b.narration
+      } else if (b.block === 'warmup' && b.movements) {
+        warmup = movementsToBlocks(b.movements)
+      } else if (b.block === 'main' && b.movements) {
+        main = movementsToBlocks(b.movements)
+        if (b.narration_per_round) {
+          roundNarration = b.narration_per_round
+        }
+      } else if (b.block === 'finisher' && b.movements) {
+        finisher = movementsToBlocks(b.movements)
+      }
+    }
+  }
+
+  // Determine rounds from main block structure string e.g. "4 rounds, 45s work / 15s rest per movement"
+  let mainRounds = 3
+  if (raw.blocks) {
+    const mainBlock = raw.blocks.find(b => b.block === 'main')
+    if (mainBlock?.structure) {
+      const m = mainBlock.structure.match(/^(\d+)\s+round/i)
+      if (m) mainRounds = parseInt(m[1])
+    }
+  }
+
+  // Assign sets (rounds) to each main movement block
+  if (main.length > 0) {
+    main = main.map(b => ({ ...b, sets: mainRounds }))
+  }
+
   return {
     id: raw.id,
     week,
@@ -51,12 +112,12 @@ function toWorkout(raw: RawWorkout, week: number): Workout {
     title: raw.title,
     type: raw.type as Workout['type'],
     duration_min: raw.duration_min,
-    coach_intro: raw.coach_intro ?? '',
+    coach_intro: coachIntro,
     coach_cues: raw.coach_cues ?? {},
-    warmup: (raw.warmup ?? []) as Workout['warmup'],
-    main: (raw.main ?? []) as Workout['main'],
-    finisher: raw.finisher as Workout['finisher'],
-    round_narration: raw.round_narration,
+    warmup,
+    main,
+    finisher,
+    round_narration: roundNarration ?? raw.round_narration,
     substitution_light: raw.substitution_light,
     substitution_heavy: raw.substitution_heavy,
   }
@@ -92,7 +153,7 @@ export function getWorkoutById(id: string): Workout | undefined {
   return undefined
 }
 
-export function getTodayWorkout(weekNum: number, programStartDate?: string): Workout | undefined {
+export function getTodayWorkout(weekNum: number, _programStartDate?: string): Workout | undefined {
   const workouts = getWorkoutsForWeek(weekNum)
   if (workouts.length === 0) return undefined
 

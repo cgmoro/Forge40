@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { saveWeightLog } from '../lib/storage'
 import type { WeightLog } from '../lib/types'
 

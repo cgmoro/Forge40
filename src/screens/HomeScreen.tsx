@@ -6,7 +6,7 @@ import { getQuoteOfDay } from '../lib/wisdom'
 import { getRankName, isTitanTouched, godLevelMsRemaining, isGodLevelAvailable } from '../lib/rewards'
 import { getTodayWeight, getWeightLogs, getAllWorkoutLogs } from '../lib/storage'
 import type { Workout } from '../lib/types'
-import type { WeightLog, WorkoutLog } from '../lib/types'
+import type { WeightLog } from '../lib/types'
 
 interface Props {
   onBeginWorkout: (workoutId: string) => void
@@ -128,16 +128,17 @@ export default function HomeScreen({ onBeginWorkout, onGodLevel, onLogWeight }: 
   const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
   const todayName = dayNames[new Date().getDay()]
 
-  let coachId = workout?.coach ?? 'sarge'
   // Fallback to weekly_template logic
   const templateMap: Record<string, string> = {
     monday: 'sarge', tuesday: 'marcus', wednesday: 'kai',
-    thursday: 'rest', friday: 'kai', saturday: 'marcus', sunday: 'sarge',
+    thursday: 'sarge', friday: 'kai', saturday: 'marcus', sunday: 'sarge',
   }
-  if (!workout) coachId = (templateMap[todayName] as string) || 'sarge'
-  if (coachId === 'rest' || coachId === 'null' || !coachId) coachId = 'sarge'
 
-  const coach = getCoach(coachId as 'sarge' | 'kai' | 'marcus')
+  let coachIdRaw = workout?.coach ?? templateMap[todayName] ?? 'sarge'
+  if (!coachIdRaw || coachIdRaw === 'rest') coachIdRaw = 'sarge'
+  const coachId = coachIdRaw as 'sarge' | 'kai' | 'marcus'
+
+  const coach = getCoach(coachId)
   const accentColor = getCoachAccentColor(coachId)
   const avatarStyle = getCoachAvatarStyle(coachId)
   const letterColor = getCoachLetterColor(coachId)

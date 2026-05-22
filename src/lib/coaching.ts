@@ -25,7 +25,7 @@ export function generateCoachingNote(summary: WeekSummary): CoachingNote {
     avgEnergyAfter,
     avgEnergyBefore,
     weightChange,
-    shieldsEarned,
+    shieldsEarned: _shieldsEarned,
     streakDays,
   } = summary
 

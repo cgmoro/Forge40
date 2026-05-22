@@ -1,7 +1,8 @@
 // StorageAdapter — IndexedDB implementation via idb.
 // Swap to Supabase by replacing this file; the interface stays stable.
 
-import { openDB, IDBPDatabase } from 'idb'
+import { openDB } from 'idb'
+import type { IDBPDatabase } from 'idb'
 import type {
   WorkoutLog,
   WeightLog,
