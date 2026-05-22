@@ -1,0 +1,122 @@
+[
+  {
+    "id": "gl-01",
+    "title": "Iron Storm",
+    "description": "Non-stop kettlebell AMRAP. Bell goes down when you do.",
+    "duration_min": 45,
+    "format": "AMRAP",
+    "blocks": [
+      { "name": "Swing", "reps": 15, "weight": "25lb", "rest_seconds": 0 },
+      { "name": "Goblet Squat", "reps": 10, "weight": "25lb", "rest_seconds": 0 },
+      { "name": "Press R", "reps": 8, "weight": "20lb", "rest_seconds": 0 },
+      { "name": "Press L", "reps": 8, "weight": "20lb", "rest_seconds": 0 },
+      { "name": "Row R", "reps": 10, "weight": "25lb", "rest_seconds": 0 },
+      { "name": "Row L", "reps": 10, "weight": "25lb", "rest_seconds": 0 },
+      { "name": "Burpee", "reps": 5, "weight": "bodyweight", "rest_seconds": 60 }
+    ],
+    "sarge_intro": "This is forty-five minutes, no half-measures, no quarter asked. You will count rounds. Bell goes down when you do.",
+    "kai_intro": "AMRAP means as many rounds as possible, big dog. Not as many as is comfortable.",
+    "marcus_intro": "Forty-five minutes of continuous work. Each round is a meditation. The mind quits long before the body."
+  },
+  {
+    "id": "gl-02",
+    "title": "The Centurion",
+    "description": "100 swings, 100 goblet squats, 100 rows. In any order. Against the clock.",
+    "duration_min": 45,
+    "format": "For Time",
+    "blocks": [
+      { "name": "Swing", "reps": 100, "weight": "25lb", "note": "Break into sets as needed" },
+      { "name": "Goblet Squat", "reps": 100, "weight": "25lb", "note": "Break into sets as needed" },
+      { "name": "Single-arm Row", "reps": 50, "weight": "25lb", "note": "Per side" }
+    ],
+    "sarge_intro": "One hundred, one hundred, one hundred. That is the work. Not the goal — the minimum.",
+    "kai_intro": "Three hundred reps. Move how you want, rest when you have to. Time doesn't care.",
+    "marcus_intro": "The centurion runs do not ask if the road is long. They run. Three hundred reps. Begin."
+  },
+  {
+    "id": "gl-03",
+    "title": "Death by EMOM",
+    "description": "Every minute on the minute for 45 minutes. Reps climb by 1 each round until you can't.",
+    "duration_min": 45,
+    "format": "EMOM",
+    "blocks": [
+      { "name": "Swing", "reps": "N (where N = round number)", "weight": "25lb" },
+      { "name": "Burpee", "reps": "N", "weight": "bodyweight" }
+    ],
+    "sarge_intro": "Round one: one swing, one burpee. Round two: two of each. You will find your wall. The question is where it is.",
+    "kai_intro": "Simple enough to explain. Hard enough to end you. Go until the minute runs out before you finish.",
+    "marcus_intro": "Ascending load. Each minute the work compounds. This is a lesson in limits."
+  },
+  {
+    "id": "gl-04",
+    "title": "The Double",
+    "description": "Double kettlebell complex — Front Squat, Press, Row, Swing. 10 rounds.",
+    "duration_min": 45,
+    "format": "10 rounds for quality",
+    "blocks": [
+      { "name": "Double KB Front Squat", "reps": 5, "weight": "2x20lb" },
+      { "name": "Double KB Press", "reps": 5, "weight": "2x20lb" },
+      { "name": "Double KB Row", "reps": 5, "weight": "2x20lb" },
+      { "name": "Double KB Swing", "reps": 10, "weight": "2x20lb" },
+      { "name": "Rest", "duration_seconds": 60 }
+    ],
+    "sarge_intro": "Two bells. Ten rounds. Form does not break. If it breaks, the set ends and you start that round over.",
+    "kai_intro": "Double bells means double honesty. Both sides work or neither does.",
+    "marcus_intro": "The two bells teach symmetry. Weakness on one side is a debt the other side carries."
+  },
+  {
+    "id": "gl-05",
+    "title": "Snatch Test",
+    "description": "100 snatches in 5 minutes. StrongFirst standard. Scale weight as needed.",
+    "duration_min": 45,
+    "format": "Snatch test + accessory",
+    "blocks": [
+      { "name": "KB Snatch", "reps": 100, "weight": "20lb", "note": "5-minute time cap. Switch hands freely.", "duration_seconds": 300 },
+      { "name": "Rest", "duration_seconds": 300 },
+      { "name": "KB Swing", "sets": 5, "reps": 20, "weight": "25lb" },
+      { "name": "Goblet Squat", "sets": 5, "reps": 10, "weight": "25lb" },
+      { "name": "KB Turkish Get-up", "sets": 3, "reps": 2, "weight": "20lb", "note": "Per side. No rush." }
+    ],
+    "sarge_intro": "The snatch test is the measure. Five minutes, one hundred reps. That is the standard. Today we find where you stand.",
+    "kai_intro": "A hundred snatches in five minutes is the entry exam for serious training. You're taking it today.",
+    "marcus_intro": "The snatch test does not care about your intentions. Only your preparation."
+  },
+  {
+    "id": "gl-06",
+    "title": "The Forge",
+    "description": "Six movements. Six rounds. One bell. Maximum load. This is the program's hardest session.",
+    "duration_min": 45,
+    "format": "6 rounds",
+    "blocks": [
+      { "name": "KB Swing", "reps": 20, "weight": "25lb" },
+      { "name": "KB Clean + Press R", "reps": 8, "weight": "20lb" },
+      { "name": "KB Clean + Press L", "reps": 8, "weight": "20lb" },
+      { "name": "KB Goblet Squat", "reps": 10, "weight": "25lb" },
+      { "name": "KB Renegade Row", "reps": 8, "weight": "2x20lb" },
+      { "name": "KB Windmill R", "reps": 5, "weight": "20lb" },
+      { "name": "KB Windmill L", "reps": 5, "weight": "20lb" },
+      { "name": "Rest", "duration_seconds": 90 }
+    ],
+    "sarge_intro": "Six rounds. Six movements. No substitutions. This is the session the program was built toward.",
+    "kai_intro": "The Forge. Six rounds means six chances to hold it together. Most people fall apart around round four.",
+    "marcus_intro": "The Forge does not produce strength. It reveals what was already there. Six rounds. Begin."
+  },
+  {
+    "id": "gl-07",
+    "title": "Run the Gauntlet",
+    "description": "Run 1 mile. 50 swings. Run 1 mile. 40 clean and press. Run 1 mile.",
+    "duration_min": 45,
+    "format": "For Time",
+    "blocks": [
+      { "name": "Run", "distance": "1 mile", "effort": "hard pace" },
+      { "name": "KB Swing", "reps": 50, "weight": "25lb" },
+      { "name": "Run", "distance": "1 mile", "effort": "hard pace" },
+      { "name": "KB Clean and Press R", "reps": 20, "weight": "20lb" },
+      { "name": "KB Clean and Press L", "reps": 20, "weight": "20lb" },
+      { "name": "Run", "distance": "1 mile", "effort": "whatever you have left" }
+    ],
+    "sarge_intro": "Run. Swing. Run. Press. Run. That is all. Three miles and ninety reps. Clock is running.",
+    "kai_intro": "The gauntlet. You come out the other side or you don't. Three miles and ninety reps.",
+    "marcus_intro": "The gauntlet has no middle option. You enter, you finish."
+  }
+]

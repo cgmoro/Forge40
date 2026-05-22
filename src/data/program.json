@@ -1,0 +1,870 @@
+{
+  "$schema_version": "1.0",
+  "program_name": "Forge40",
+  "program_description": "12-week kettlebell + running program. Intermediate. Fat loss + muscle gain. 5 training days, 6 sessions/week (one two-a-day).",
+  "athlete_profile": {
+    "level": "intermediate",
+    "equipment": ["2x 20lb bell", "2x 25lb bell", "1x 50lb bell", "variable dumbbell set", "jump rope"],
+    "session_duration_minutes": [20, 30],
+    "goal": "fat loss + muscle gain"
+  },
+
+  "coaches": {
+    "sarge": {
+      "name": "Sarge",
+      "full_name": "Master Sergeant Atticus Vance (Ret.)",
+      "personality": "Grizzled veteran. Ex-Force Recon. Dry humor, no compliments wasted. Calls you 'son' when warm, 'boot' when sharp.",
+      "voice_traits": ["short sentences", "military cadence", "occasional dark humor", "no exclamation points unless quoting orders", "uses 'roger', 'copy', 'on me'"],
+      "leads": ["heavy strength days", "long grind sessions", "the long KB workout"],
+      "signature_phrases": [
+        "On me.",
+        "Pain is information. Listen to it. Don't obey it.",
+        "Half-reps are how civilians train.",
+        "The body's lying. The bell ain't.",
+        "Breathe through it, son."
+      ]
+    },
+    "kai": {
+      "name": "Kai",
+      "full_name": "Kai Mercer",
+      "personality": "Sharp older brother. Former D1 athlete, hybrid trainer. Fast, witty, sarcastic with affection. Will roast you for half-reps.",
+      "voice_traits": ["fast cadence", "wisecracks", "sports analogies", "occasional self-aware humor", "calls you by your first name or 'big dog'"],
+      "leads": ["conditioning days", "complexes", "EMOMs", "interval runs", "two-a-days"],
+      "signature_phrases": [
+        "Alright, big dog, we're moving.",
+        "That was three reps. I counted. Don't make me count again.",
+        "If you can text right now, you're not working.",
+        "Pretty form is fast form. Ugly form gets you hurt.",
+        "We're not done. We're just between sets."
+      ]
+    },
+    "marcus": {
+      "name": "Marcus",
+      "full_name": "Marcus Aurelio",
+      "personality": "Stoic philosopher-coach. Ex-monk turned movement specialist. Quiet, deliberate, grounded. Drops a quote without preamble. Fire when needed.",
+      "voice_traits": ["measured pace", "longer sentences when teaching", "short sentences when correcting", "occasional Marcus Aurelius or Epictetus reference", "never raises voice but commands attention"],
+      "leads": ["technical days", "Turkish get-ups", "long run (meditative)", "skill work"],
+      "signature_phrases": [
+        "Breath first. The body follows breath.",
+        "You're rushing. The bell will wait.",
+        "What stands in the way becomes the way.",
+        "Slow is smooth. Smooth is strong.",
+        "This rep is the only one that exists."
+      ]
+    }
+  },
+
+  "weekly_template": {
+    "monday": {"coach": "sarge", "type": "kb_strength"},
+    "tuesday": {"coach": "marcus", "type": "kb_technical"},
+    "wednesday": {"coach": "kai", "type": "kb_conditioning"},
+    "thursday": {"coach": null, "type": "rest"},
+    "friday": {"coach": "kai", "type": "two_a_day", "sessions": ["run_intervals", "kb_short"]},
+    "saturday": {"coach": "marcus", "type": "run_long"},
+    "sunday": {"coach": "sarge", "type": "kb_grind"}
+  },
+
+  "energy_substitution_rules": {
+    "description": "Start-of-workout energy reading (1-10) substitutes coach lines and may adjust load.",
+    "low_energy": {
+      "threshold": "1-4",
+      "behavior": "Coach softens tone, acknowledges low energy, may suggest -10% load or -1 round. Marcus leans heavier into breath work. Sarge becomes 'show up anyway' mode (no jokes about it). Kai drops the sarcasm and switches to encouragement.",
+      "load_adjustment": -0.10,
+      "round_adjustment": -1
+    },
+    "moderate_energy": {
+      "threshold": "5-7",
+      "behavior": "Default scripts run as written.",
+      "load_adjustment": 0,
+      "round_adjustment": 0
+    },
+    "high_energy": {
+      "threshold": "8-10",
+      "behavior": "Coach sharpens. Sarge gets stricter on form. Kai turns up the roast. Marcus challenges you to add 1 rep per set. Optional load bump +5lb on main lifts.",
+      "load_adjustment": 0.05,
+      "round_adjustment": 0,
+      "optional_extra_reps": 1
+    }
+  },
+
+  "mid_workout_checkin_rules": {
+    "description": "Triggered roughly halfway through workout. Three options for user: 'light' / 'right' / 'heavy'.",
+    "light": {
+      "behavior": "Coach challenges to up tempo or reps for remaining sets. Sarge: 'Then you're lying or your bell is. Pick.' Kai: 'Cool, we're adding two reps per set. You're welcome.' Marcus: 'Then deepen the breath and find the next gear.'"
+    },
+    "right": {
+      "behavior": "Coach affirms briefly and pushes forward. Sarge: 'Copy.' Kai: 'Stay in the pocket.' Marcus: 'This is the place.'"
+    },
+    "heavy": {
+      "behavior": "Coach offers options: reduce load 10%, drop a round, or extend rest by 30s. Sarge: 'Pull back ten percent. Finish standing.' Kai: 'Drop a round. Better to do four clean than five sloppy.' Marcus: 'Add thirty seconds rest. The work waits for you.'"
+    }
+  },
+
+  "weeks": [
+    {
+      "week": 1,
+      "phase": "Foundation",
+      "theme": "Re-introduce the patterns. Build the floor.",
+      "workouts": [
+        {
+          "id": "w1d1",
+          "day": "monday",
+          "coach": "sarge",
+          "title": "Week 1, Day 1. Reintroduction.",
+          "type": "kb_strength",
+          "duration_min": 25,
+          "blocks": [
+            {
+              "block": "intro",
+              "narration": "Alright, son. First day. I'm not going to ask if you're ready because the answer is always yes. You showed up. That's the first rep. Twenty-five minutes. We're keeping it clean. Foundation week. The bell you grab today is the one you can move with intent. Not ego. Intent. Let's move."
+            },
+            {
+              "block": "warmup",
+              "duration_sec": 180,
+              "movements": [
+                {"name": "Halos", "reps": "5 each direction", "weight": "20lb", "video_key": "halo"},
+                {"name": "Goblet squat to stand", "reps": "8", "weight": "20lb", "video_key": "goblet_squat"},
+                {"name": "Hip hinge", "reps": "10 bodyweight", "video_key": "hip_hinge"}
+              ],
+              "narration": "Three minutes of warm-up. Halos first. Slow circles around the head. Don't shrug your shoulders to your ears. Then goblet squat to stand. Eight of them. Sit between your heels. Last is the hinge. Ten reps. Hands on your hip crease. Push your butt back like you're closing a car door with it. That's the swing pattern. Memorize it."
+            },
+            {
+              "block": "main",
+              "duration_sec": 1080,
+              "structure": "3 rounds, 45s work / 15s rest per movement",
+              "movements": [
+                {"name": "Two-hand swing", "reps": "45s", "weight": "25lb", "video_key": "two_hand_swing", "cue": "Hike the bell back. Snap the hips. Stand tall. The bell floats. You don't lift it."},
+                {"name": "Goblet squat", "reps": "45s", "weight": "25lb", "video_key": "goblet_squat", "cue": "Elbows inside the knees at the bottom. Drive through the floor."},
+                {"name": "Strict press (right)", "reps": "45s", "weight": "20lb", "video_key": "strict_press", "cue": "Pack the shoulder. Don't lean back. Press, don't push."},
+                {"name": "Strict press (left)", "reps": "45s", "weight": "20lb", "video_key": "strict_press", "cue": "Same as the other side. Both shoulders earn their keep."},
+                {"name": "Bent-over row (right)", "reps": "45s", "weight": "25lb", "video_key": "bent_row", "cue": "Flat back. Pull the bell to your hip, not your chest."},
+                {"name": "Bent-over row (left)", "reps": "45s", "weight": "25lb", "video_key": "bent_row", "cue": "Same again. Squeeze the shoulder blade at the top."}
+              ],
+              "narration_per_round": [
+                "Round one. We're greasing the groove. Move like you've got nothing to prove. Because today, you don't.",
+                "Round two. Same movements. Better positions. The first round was the rehearsal. This one's the take.",
+                "Last round. You've got it now. Don't speed up just because the end is in sight. Finish the way you started."
+              ],
+              "midpoint_checkin": true
+            },
+            {
+              "block": "finisher",
+              "duration_sec": 120,
+              "structure": "EMOM x 2",
+              "movements": [
+                {"name": "Two-hand swing", "reps": "15", "weight": "25lb", "video_key": "two_hand_swing"}
+              ],
+              "narration": "Two minutes. Fifteen swings at the top of each minute. Whatever time is left, you rest. If you finish the swings in twenty seconds, you get forty seconds of rest. If you take fifty, you get ten. Math doesn't care about your feelings. Move."
+            },
+            {
+              "block": "outro",
+              "narration": "That's the work, son. Twenty-five minutes. Day one. You don't get a medal for this. You get a rep on the calendar. The medal comes at week twelve. Rate the session honest. The data only helps if you don't lie to it. Dismissed."
+            }
+          ]
+        },
+        {
+          "id": "w1d2",
+          "day": "tuesday",
+          "coach": "marcus",
+          "title": "Week 1, Day 2. The Get-up.",
+          "type": "kb_technical",
+          "duration_min": 25,
+          "blocks": [
+            {
+              "block": "intro",
+              "narration": "Good. You came back. The second workout is harder than the first because nothing forced you here except the version of yourself you're trying to build. Today is the Turkish get-up. We will not rush. We will not load heavy. The get-up is a conversation between every joint in your body. Listen to it."
+            },
+            {
+              "block": "warmup",
+              "duration_sec": 240,
+              "movements": [
+                {"name": "Cat-cow", "reps": "8", "video_key": "cat_cow"},
+                {"name": "World's greatest stretch", "reps": "3 each side", "video_key": "worlds_greatest"},
+                {"name": "Naked get-up (no weight)", "reps": "1 each side", "video_key": "tgu"}
+              ],
+              "narration": "Four minutes. Move slowly. The body is a stiff hinge in the morning of a session. Open the spine. Open the hips. Walk through one get-up with no weight first. You should know where every limb is going before you add iron."
+            },
+            {
+              "block": "main",
+              "duration_sec": 1080,
+              "structure": "10 minutes, alternating sides, slow",
+              "movements": [
+                {"name": "Turkish get-up", "reps": "1 per minute, alternating", "weight": "20lb", "video_key": "tgu", "cue": "Eyes on the bell on the way up. Eyes forward on the way down. Don't rush the transitions. Every position is a checkpoint."}
+              ],
+              "narration_per_round": [
+                "Minute one. Right side. Press the bell. Lock the elbow. Roll to the elbow. The bell stays vertical. Always.",
+                "Minute two. Left side. The body remembers asymmetries. We're balancing the ledger.",
+                "Three. Right. By now you should feel the obliques engage on the sit-up. If you don't, slow it down.",
+                "Four. Left. Same notes.",
+                "Five. Right. Halfway. Marcus Aurelius wrote that we should perform every action as if it were our last. Try that with this rep.",
+                "Six. Left. Last side of the front half. Feel your shoulder pack. It's listening.",
+                "Seven. Right. The back half is where most people get sloppy. You won't.",
+                "Eight. Left. The descent matters more than the ascent. Most injuries happen on the way down. Reverse the order. Slowly.",
+                "Nine. Right. Second to last on this side. Make it the cleanest one yet.",
+                "Ten. Left. Final rep. End with control. The set isn't done until the bell is back on the floor."
+              ],
+              "midpoint_checkin": true
+            },
+            {
+              "block": "finisher",
+              "duration_sec": 180,
+              "structure": "3 minutes flow",
+              "movements": [
+                {"name": "Halo + goblet squat flow", "reps": "1 halo each way + 1 squat = 1 rep. AMRAP 3 min.", "weight": "25lb", "video_key": "halo"}
+              ],
+              "narration": "Three-minute flow. Halo right, halo left, one squat. That's one rep. Move continuously. Breathe through the nose if you can. This is the bridge between work and rest. The work isn't over but the urgency is."
+            },
+            {
+              "block": "outro",
+              "narration": "That's the session. Twenty-five minutes. You worked one movement and one finisher and that was enough. The get-up will teach you more than any other lift over the next twelve weeks if you let it. Rate the work honestly. Tomorrow is Kai. He talks more than I do. Don't say I didn't warn you."
+            }
+          ]
+        },
+        {
+          "id": "w1d3",
+          "day": "wednesday",
+          "coach": "kai",
+          "title": "Week 1, Day 3. The First Complex.",
+          "type": "kb_conditioning",
+          "duration_min": 25,
+          "blocks": [
+            {
+              "block": "intro",
+              "narration": "Alright, big dog. Kai's up. Sarge had you grinding, Marcus had you meditating, now we're playing a different game. Twenty-five minutes. A complex. Five movements stitched together, no setting the bell down. You're going to feel your heart rate. That's the point. Don't fight it. Date it."
+            },
+            {
+              "block": "warmup",
+              "duration_sec": 240,
+              "movements": [
+                {"name": "Jumping jacks", "reps": "30s", "video_key": "jumping_jacks"},
+                {"name": "Inchworm to push-up", "reps": "5", "video_key": "inchworm"},
+                {"name": "Bodyweight squat", "reps": "10", "video_key": "bw_squat"},
+                {"name": "Arm circles", "reps": "10 each direction", "video_key": "arm_circles"}
+              ],
+              "narration": "Four minutes warm-up. Jacks first. Don't half-rep them, I'll know. Inchworms next, five of those. Squat ten times, get the knees over the toes a little, it's fine, the internet lied to you about that. Arm circles last. Wake up the shoulders. Let's go."
+            },
+            {
+              "block": "main",
+              "duration_sec": 1080,
+              "structure": "4 rounds of the complex. Rest 90s between rounds. Same bell throughout.",
+              "movements": [
+                {"name": "Two-hand swing", "reps": "10", "weight": "25lb", "video_key": "two_hand_swing"},
+                {"name": "Goblet squat", "reps": "8", "weight": "25lb", "video_key": "goblet_squat"},
+                {"name": "Bent row (right)", "reps": "6", "weight": "25lb", "video_key": "bent_row"},
+                {"name": "Bent row (left)", "reps": "6", "weight": "25lb", "video_key": "bent_row"},
+                {"name": "Strict press (right)", "reps": "4", "weight": "25lb", "video_key": "strict_press"},
+                {"name": "Strict press (left)", "reps": "4", "weight": "25lb", "video_key": "strict_press"}
+              ],
+              "narration_per_round": [
+                "Round one. Take it cool. You're learning the pattern. Don't race. Move from one to the next like you've done it a thousand times, even if you haven't.",
+                "Round two. The bell got heavier. Yes I know. No I don't care. Same numbers. Go.",
+                "Round three. Halfway through your halfway. We've passed the point where it's a warm-up and we're squarely in the part where you decide what kind of guy you are.",
+                "Last round. Last round. Whatever you held back, spend it. The bell goes down empty."
+              ],
+              "midpoint_checkin": true
+            },
+            {
+              "block": "finisher",
+              "duration_sec": 120,
+              "structure": "Jump rope, 2 min steady",
+              "movements": [
+                {"name": "Jump rope", "reps": "2 min steady, any style", "video_key": "jump_rope"}
+              ],
+              "narration": "Two minutes on the rope. Doesn't matter if you trip. Just don't quit. Find a rhythm. If you can't go straight through, do thirty on, ten off, thirty on, until time's up. Get the heart rate up one more time then we're done."
+            },
+            {
+              "block": "outro",
+              "narration": "Done. Twenty-five minutes. You moved a bell about a thousand pounds total volume today. Not bad for a Wednesday. Rate it honest, big dog. Tomorrow is rest day. Real rest. Don't sneak a workout in. Recovery is where the gains live."
+            }
+          ]
+        },
+        {
+          "id": "w1d5",
+          "day": "friday",
+          "coach": "kai",
+          "title": "Week 1, Day 5. The Double.",
+          "type": "two_a_day",
+          "duration_min": 45,
+          "sessions": [
+            {
+              "session": "run",
+              "duration_min": 20,
+              "blocks": [
+                {
+                  "block": "intro",
+                  "narration": "Double day. Don't get cute about it, we're easing in. Run first. Twenty minutes. Six minutes easy warm-up, then six rounds of thirty seconds hard, thirty seconds easy. That's three minutes of work, three of recovery, then jog home. Welcome to intervals."
+                },
+                {
+                  "block": "warmup",
+                  "duration_sec": 360,
+                  "narration": "Six minutes easy. Conversational pace. If you can't talk, you're going too hard. We haven't started yet."
+                },
+                {
+                  "block": "main",
+                  "duration_sec": 360,
+                  "structure": "6 rounds: 30s hard / 30s easy",
+                  "narration_per_round": [
+                    "Round one. Hard means hard, not flat-out. You'd hit a wall by round four. Pace it.",
+                    "Two. Settle in.",
+                    "Three. Halfway. This is where you find out if your warm-up was honest.",
+                    "Four. Three to go. The legs are heavier now. Welcome to the club.",
+                    "Five. Almost. Don't shorten your stride. Keep the form.",
+                    "Six. Last hard one. Empty it."
+                  ]
+                },
+                {
+                  "block": "cooldown",
+                  "duration_sec": 480,
+                  "narration": "Eight minutes easy jog home. Should feel like you're floating compared to the intervals. Get the heart rate back down before the KB session. Hydrate."
+                }
+              ]
+            },
+            {
+              "session": "kb_short",
+              "duration_min": 20,
+              "blocks": [
+                {
+                  "block": "intro",
+                  "narration": "Second session. The bell. Twenty minutes. You've got some fatigue from the run, that's the point. Welcome to the hybrid life. We're keeping it simple. Three movements, four rounds. Press, swing, squat. Move, rest, repeat."
+                },
+                {
+                  "block": "main",
+                  "duration_sec": 1080,
+                  "structure": "4 rounds. 60s work / 30s rest per movement.",
+                  "movements": [
+                    {"name": "Strict press (alternating arms each round)", "reps": "60s", "weight": "20lb", "video_key": "strict_press"},
+                    {"name": "Two-hand swing", "reps": "60s", "weight": "25lb", "video_key": "two_hand_swing"},
+                    {"name": "Goblet squat", "reps": "60s", "weight": "25lb", "video_key": "goblet_squat"}
+                  ],
+                  "narration_per_round": [
+                    "Round one. Right arm press. The legs are tired, the shoulders aren't. Take advantage.",
+                    "Two. Left arm. Same notes. Keep the form even if you have to slow down.",
+                    "Three. Right again. We alternate every round so both shoulders get equal love. And equal hate.",
+                    "Last. Left. Finish standing tall."
+                  ],
+                  "midpoint_checkin": true
+                },
+                {
+                  "block": "outro",
+                  "narration": "That's the double. Forty-five total minutes today. You earned the weekend. Marcus has you on Saturday for the long run. He's gonna make it feel like meditation. Don't be fooled. It still hurts."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w1d6",
+          "day": "saturday",
+          "coach": "marcus",
+          "title": "Week 1, Day 6. The Long Path.",
+          "type": "run_long",
+          "duration_min": 30,
+          "blocks": [
+            {
+              "block": "intro",
+              "narration": "Thirty minutes. Easy pace. The kind of pace where you could speak in full sentences if you had to. This is not a hard run. This is the run that teaches the body how to use fat as fuel. It looks easy and it works on you anyway. That is the design."
+            },
+            {
+              "block": "main",
+              "duration_sec": 1800,
+              "structure": "Steady continuous easy effort",
+              "narration_segments": [
+                {"at_minute": 0, "narration": "Begin. Find the breath first. In through the nose, out through the mouth. If you can't breathe through your nose, you're too fast. Slow down until you can."},
+                {"at_minute": 5, "narration": "Five minutes in. The first five are always the hardest. The body protests. Then it remembers. Let it remember."},
+                {"at_minute": 10, "narration": "Ten. A third of the way through. Notice where your jaw is. If it's clenched, unclench it. Tension in the face is wasted energy."},
+                {"at_minute": 15, "narration": "Halfway. Epictetus wrote that no man is free who is not master of himself. The slow pace is harder than the fast one for men who do not yet master themselves. You are practicing the harder thing."},
+                {"at_minute": 20, "narration": "Twenty. Two-thirds. The mind will start to wander now. Let it. But every few minutes, return to the breath. The mind goes where the breath leads it back."},
+                {"at_minute": 25, "narration": "Five minutes left. Don't speed up yet. The discipline is to finish at the pace you started."},
+                {"at_minute": 29, "narration": "One minute. Hold the pace. The temptation to sprint the end is ego. We don't feed ego today."}
+              ],
+              "midpoint_checkin": true
+            },
+            {
+              "block": "outro",
+              "narration": "Thirty minutes. Done. You did not race anyone, including yourself. That is a kind of strength most men never learn. Rate the session. Then drink water. Then rest. Tomorrow is Sarge."
+            }
+          ]
+        },
+        {
+          "id": "w1d7",
+          "day": "sunday",
+          "coach": "sarge",
+          "title": "Week 1, Day 7. The Grind.",
+          "type": "kb_grind",
+          "duration_min": 30,
+          "blocks": [
+            {
+              "block": "intro",
+              "narration": "Week one. Last session. Thirty minutes. The grind. We're going to do one thing, mostly. Swings. A lot of them. Spread across thirty minutes. You're going to want to rush. Don't. We're building an engine. Engines are built slow."
+            },
+            {
+              "block": "warmup",
+              "duration_sec": 240,
+              "movements": [
+                {"name": "Halos", "reps": "5 each direction", "weight": "20lb", "video_key": "halo"},
+                {"name": "Hip hinge", "reps": "10", "video_key": "hip_hinge"},
+                {"name": "Goblet squat", "reps": "8", "weight": "20lb", "video_key": "goblet_squat"},
+                {"name": "Light swing", "reps": "10", "weight": "20lb", "video_key": "two_hand_swing"}
+              ],
+              "narration": "Four minutes. Same warm-up as Monday but with a light swing set at the end. Get the hinge feeling crisp before you go heavy."
+            },
+            {
+              "block": "main",
+              "duration_sec": 1200,
+              "structure": "EMOM x 20. 10 two-hand swings at the top of every minute.",
+              "movements": [
+                {"name": "Two-hand swing", "reps": "10 per minute", "weight": "25lb", "video_key": "two_hand_swing", "cue": "Hike. Snap. Stand. The bell is light. The volume is what cooks you. Don't grip too hard. Save the forearms."}
+              ],
+              "narration_per_round": [
+                "Minute one. Ten swings. Easy. You've got fifty seconds to rest. Use it.",
+                "Two. Ten more. Same numbers, same form.",
+                "Three. Now we're warming up the engine.",
+                "Four. Two hundred pounds of swing volume in. Eighteen hundred to go.",
+                "Five. A quarter. Settle in. You've got time.",
+                "Six. The forearms are talking. Tell them to wait their turn.",
+                "Seven.",
+                "Eight. Almost halfway. The middle is where men either find the rhythm or quit. Find the rhythm.",
+                "Nine.",
+                "Ten. Halfway. Take a breath at the top of the next minute before you start. One breath. Not five.",
+                "Eleven.",
+                "Twelve. The bell is the same weight. You're heavier now. That's training.",
+                "Thirteen.",
+                "Fourteen. The last six are the only ones that build the engine. Everything before this was the cost of entry.",
+                "Fifteen. Three-quarters.",
+                "Sixteen.",
+                "Seventeen.",
+                "Eighteen. Three left. The bell didn't get heavier. Your grip did. Squeeze on the swing, relax at the bottom.",
+                "Nineteen. Second to last.",
+                "Twenty. Last minute. Ten clean ones. Finish the way you started, son."
+              ],
+              "midpoint_checkin": true
+            },
+            {
+              "block": "outro",
+              "narration": "Two hundred swings. Two hundred clean swings on day seven of twelve weeks. That's the work. Rest tomorrow. Drink water. Don't be a hero with your diet today, eat enough to recover. Week two starts Monday. I'll see you then."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "week": 2,
+      "phase": "Foundation",
+      "theme": "Add reps. Tighten form. Same patterns, more volume.",
+      "workouts": [
+        {
+          "id": "w2d1",
+          "day": "monday",
+          "coach": "sarge",
+          "title": "Week 2, Day 1. More iron.",
+          "type": "kb_strength",
+          "duration_min": 27,
+          "blocks": [
+            {
+              "block": "intro",
+              "narration": "Week two. You came back. Good. Most don't. We're adding a round and a few reps this week. The patterns are the same. The volume creeps. That's how foundation works. Bone first, then muscle on top. Twenty-seven minutes. Let's go."
+            },
+            {
+              "block": "warmup",
+              "duration_sec": 180,
+              "movements": [
+                {"name": "Halos", "reps": "5 each direction", "weight": "20lb", "video_key": "halo"},
+                {"name": "Goblet squat to stand", "reps": "10", "weight": "20lb", "video_key": "goblet_squat"},
+                {"name": "Hip hinge", "reps": "12", "video_key": "hip_hinge"}
+              ],
+              "narration": "Three minutes. Same warm-up, two more reps on the squat and hinge. Wake the hips up. They're going to work today."
+            },
+            {
+              "block": "main",
+              "duration_sec": 1260,
+              "structure": "4 rounds, 45s work / 15s rest per movement",
+              "movements": [
+                {"name": "Two-hand swing", "reps": "45s", "weight": "25lb", "video_key": "two_hand_swing", "cue": "Hike high. Snap hard. The bell floats."},
+                {"name": "Goblet squat", "reps": "45s", "weight": "25lb", "video_key": "goblet_squat", "cue": "Pause one second at the bottom each rep. Earn the stand-up."},
+                {"name": "Strict press (right)", "reps": "45s", "weight": "20lb", "video_key": "strict_press"},
+                {"name": "Strict press (left)", "reps": "45s", "weight": "20lb", "video_key": "strict_press"},
+                {"name": "Bent row (right)", "reps": "45s", "weight": "25lb", "video_key": "bent_row"},
+                {"name": "Bent row (left)", "reps": "45s", "weight": "25lb", "video_key": "bent_row"}
+              ],
+              "narration_per_round": [
+                "Round one. Same as last week but cleaner. Last week was rehearsal. This week we're on stage.",
+                "Two. The squat has a pause now. Don't skip it. The pause is where the strength gets built.",
+                "Three. You felt the extra round before you felt it. Now you're in it. Stay calm.",
+                "Last round. The fourth round of anything is where character shows up. Show it."
+              ],
+              "midpoint_checkin": true
+            },
+            {
+              "block": "finisher",
+              "duration_sec": 180,
+              "structure": "EMOM x 3",
+              "movements": [
+                {"name": "Two-hand swing", "reps": "15", "weight": "25lb", "video_key": "two_hand_swing"}
+              ],
+              "narration": "Three minutes. Fifteen swings at the top of each minute. Same drill as last week, one more round. The math is simple. The work isn't."
+            },
+            {
+              "block": "outro",
+              "narration": "Day eight in the books. You added one round, ten reps of swings, and a pause on every squat. That is what week two looks like. Rate it. Tomorrow Marcus. Get-up volume goes up too. Heads up."
+            }
+          ]
+        },
+        {
+          "id": "w2d2",
+          "day": "tuesday",
+          "coach": "marcus",
+          "title": "Week 2, Day 2. Get-up density.",
+          "type": "kb_technical",
+          "duration_min": 25,
+          "blocks": [
+            {
+              "block": "intro",
+              "narration": "Twelve get-ups today. Six each side. The bell is the same. The volume is more. You will be tempted to rush the last few. Do not. The last get-up matters more than the first because fatigue is when form fails. Form is what we are building."
+            },
+            {
+              "block": "warmup",
+              "duration_sec": 240,
+              "movements": [
+                {"name": "Cat-cow", "reps": "10", "video_key": "cat_cow"},
+                {"name": "World's greatest stretch", "reps": "3 each side", "video_key": "worlds_greatest"},
+                {"name": "Bird dog", "reps": "8 each side", "video_key": "bird_dog"},
+                {"name": "Naked get-up", "reps": "1 each side", "video_key": "tgu"}
+              ],
+              "narration": "Four minutes. We added bird dogs today. They wake up the cross-body connection that the get-up depends on. Move slowly."
+            },
+            {
+              "block": "main",
+              "duration_sec": 1200,
+              "structure": "12 minutes, alternating sides",
+              "movements": [
+                {"name": "Turkish get-up", "reps": "1 per minute, alternating, 12 total", "weight": "20lb", "video_key": "tgu", "cue": "Same cues as last week. Eyes on the bell going up. Eyes forward coming down. Vertical bell, always."}
+              ],
+              "narration_per_round": [
+                "One. Right. Settle in. We're doing this twelve times.",
+                "Two. Left. The first two are the rehearsal.",
+                "Three. Right. Now we're working.",
+                "Four. Left.",
+                "Five. Right. A quarter in.",
+                "Six. Left. Halfway through this set.",
+                "Seven. Right. Form check. Is the bell vertical? Are you breathing? If not, fix it.",
+                "Eight. Left. Two-thirds done.",
+                "Nine. Right.",
+                "Ten. Left.",
+                "Eleven. Right. Second to last.",
+                "Twelve. Left. Final rep. Make it the cleanest of the twelve."
+              ],
+              "midpoint_checkin": true
+            },
+            {
+              "block": "finisher",
+              "duration_sec": 240,
+              "structure": "4 minute flow",
+              "movements": [
+                {"name": "Halo + goblet squat + reverse lunge flow", "reps": "1 halo each way + 1 squat + 1 reverse lunge each side. AMRAP 4 min.", "weight": "25lb", "video_key": "reverse_lunge"}
+              ],
+              "narration": "Four minutes of flow. We added the reverse lunge this week. Step back, not forward. The front knee tracks over the front foot. Move continuously."
+            },
+            {
+              "block": "outro",
+              "narration": "That is the work. Twelve get-ups, four minutes of flow. The body is learning to be patient under load. Patience is a kind of strength. Rate the session honestly."
+            }
+          ]
+        },
+        {
+          "id": "w2d3",
+          "day": "wednesday",
+          "coach": "kai",
+          "title": "Week 2, Day 3. Complex grows up.",
+          "type": "kb_conditioning",
+          "duration_min": 27,
+          "blocks": [
+            {
+              "block": "intro",
+              "narration": "Wednesday. Complex day. Five rounds this week, not four. Same movements, more reps on a few of them. Twenty-seven minutes. The good news is you've done four rounds of this. The bad news is the fifth round exists. Let's go, big dog."
+            },
+            {
+              "block": "warmup",
+              "duration_sec": 240,
+              "movements": [
+                {"name": "Jumping jacks", "reps": "30s", "video_key": "jumping_jacks"},
+                {"name": "Inchworm to push-up", "reps": "5", "video_key": "inchworm"},
+                {"name": "Bodyweight squat", "reps": "12", "video_key": "bw_squat"},
+                {"name": "Arm circles", "reps": "10 each direction", "video_key": "arm_circles"}
+              ],
+              "narration": "Four minutes. Same warm-up, two more squats. Don't tell me you can't tell the difference. Your quads can."
+            },
+            {
+              "block": "main",
+              "duration_sec": 1380,
+              "structure": "5 rounds of the complex. Rest 90s between.",
+              "movements": [
+                {"name": "Two-hand swing", "reps": "12", "weight": "25lb", "video_key": "two_hand_swing"},
+                {"name": "Goblet squat", "reps": "10", "weight": "25lb", "video_key": "goblet_squat"},
+                {"name": "Bent row (right)", "reps": "8", "weight": "25lb", "video_key": "bent_row"},
+                {"name": "Bent row (left)", "reps": "8", "weight": "25lb", "video_key": "bent_row"},
+                {"name": "Strict press (right)", "reps": "5", "weight": "25lb", "video_key": "strict_press"},
+                {"name": "Strict press (left)", "reps": "5", "weight": "25lb", "video_key": "strict_press"}
+              ],
+              "narration_per_round": [
+                "Round one. Press jumped up to twenty-five pounds. Yes I'm aware. No I'm not sorry. The body needs the load.",
+                "Two. Bell stays the same. Your job is to make it move like it weighs less.",
+                "Three. Three down, two to go. This is the round where you decide if round five is going to be ugly or honest.",
+                "Four. The forearms are loud right now. Tell them they have one more round to wait.",
+                "Last round. Round five. We didn't have this round last week. This is bonus. Don't act surprised."
+              ],
+              "midpoint_checkin": true
+            },
+            {
+              "block": "finisher",
+              "duration_sec": 180,
+              "structure": "3 min jump rope",
+              "movements": [
+                {"name": "Jump rope", "reps": "3 min steady", "video_key": "jump_rope"}
+              ],
+              "narration": "Three minutes on the rope. Up from two. Find a rhythm and hold it. If you trip, you trip. Pick it up. Keep going."
+            },
+            {
+              "block": "outro",
+              "narration": "Wednesday's done. You're halfway through week two and the volume jumped on every session. That's how this works. Rest tomorrow. Real rest. Don't sneak a workout in. I will know. I always know."
+            }
+          ]
+        },
+        {
+          "id": "w2d5",
+          "day": "friday",
+          "coach": "kai",
+          "title": "Week 2, Day 5. Double, sharper.",
+          "type": "two_a_day",
+          "duration_min": 48,
+          "sessions": [
+            {
+              "session": "run",
+              "duration_min": 22,
+              "blocks": [
+                {
+                  "block": "intro",
+                  "narration": "Run first. Twenty-two minutes. We added two minutes. Six warm-up, eight rounds of thirty-on thirty-off, eight cooldown. Two more rounds than last week. The body remembers last week, that's the trick."
+                },
+                {
+                  "block": "warmup",
+                  "duration_sec": 360,
+                  "narration": "Six easy. Talk pace. Find the rhythm before we ask it to work."
+                },
+                {
+                  "block": "main",
+                  "duration_sec": 480,
+                  "structure": "8 rounds: 30s hard / 30s easy",
+                  "narration_per_round": [
+                    "One. Hard means hard, not max. Manage it.",
+                    "Two. Settle.",
+                    "Three. Quarter through.",
+                    "Four. Halfway through the hard work.",
+                    "Five.",
+                    "Six. Three to go.",
+                    "Seven. Second to last.",
+                    "Eight. Empty the tank on this one."
+                  ]
+                },
+                {
+                  "block": "cooldown",
+                  "duration_sec": 480,
+                  "narration": "Eight minutes easy back. Bring the heart rate down slowly. We've got a bell to lift."
+                }
+              ]
+            },
+            {
+              "session": "kb_short",
+              "duration_min": 22,
+              "blocks": [
+                {
+                  "block": "intro",
+                  "narration": "Bell session. Twenty-two. We added two minutes here too. Five rounds instead of four. You're going to feel the run. That's the point. Hybrid training is about lifting tired and running fresh, and learning the difference."
+                },
+                {
+                  "block": "main",
+                  "duration_sec": 1320,
+                  "structure": "5 rounds. 60s work / 30s rest per movement.",
+                  "movements": [
+                    {"name": "Strict press (alternating arms each round)", "reps": "60s", "weight": "20lb", "video_key": "strict_press"},
+                    {"name": "Two-hand swing", "reps": "60s", "weight": "25lb", "video_key": "two_hand_swing"},
+                    {"name": "Goblet squat", "reps": "60s", "weight": "25lb", "video_key": "goblet_squat"}
+                  ],
+                  "narration_per_round": [
+                    "One. Right press first. Standard.",
+                    "Two. Left press. Same.",
+                    "Three. Right again. Halfway.",
+                    "Four. Left.",
+                    "Last. Right. Round five didn't exist last week. Earn it."
+                  ],
+                  "midpoint_checkin": true
+                },
+                {
+                  "block": "outro",
+                  "narration": "Hybrid session done. Forty-eight total. You're going to be sore tomorrow. Marcus is taking you on a thirty-five minute long run. Sleep tonight. Hydrate. Eat enough."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "w2d6",
+          "day": "saturday",
+          "coach": "marcus",
+          "title": "Week 2, Day 6. The Long Path, longer.",
+          "type": "run_long",
+          "duration_min": 35,
+          "blocks": [
+            {
+              "block": "intro",
+              "narration": "Thirty-five minutes today. Five minutes more than last week. Same pace. Easy. The temptation will be to go faster because your legs feel ready. Resist it. The benefit is in the duration, not the speed."
+            },
+            {
+              "block": "main",
+              "duration_sec": 2100,
+              "structure": "Continuous easy effort",
+              "narration_segments": [
+                {"at_minute": 0, "narration": "Begin. Nose breathing if you can. Slow the cadence. The pace finds you."},
+                {"at_minute": 7, "narration": "Seven minutes. The body has stopped protesting. Now it cooperates."},
+                {"at_minute": 14, "narration": "Fourteen. Two-fifths through. Watch where the mind goes. Then bring it back to the breath."},
+                {"at_minute": 18, "narration": "Halfway. Marcus Aurelius, again. He wrote that the universe is change, our life is what our thoughts make it. The run is whatever you decide it is in your head. Decide on calm."},
+                {"at_minute": 25, "narration": "Twenty-five. Ten to go. No speeding up."},
+                {"at_minute": 30, "narration": "Thirty. Five left. The discipline is to hold the pace when ego wants you to surge."},
+                {"at_minute": 34, "narration": "One minute. Steady. Steady."}
+              ],
+              "midpoint_checkin": true
+            },
+            {
+              "block": "outro",
+              "narration": "Thirty-five. Done. You ran longer than last week and you did not race. That is what an aerobic engine sounds like being built. Rate it. Tomorrow is Sarge. The grind grows."
+            }
+          ]
+        },
+        {
+          "id": "w2d7",
+          "day": "sunday",
+          "coach": "sarge",
+          "title": "Week 2, Day 7. The Grind grows.",
+          "type": "kb_grind",
+          "duration_min": 30,
+          "blocks": [
+            {
+              "block": "intro",
+              "narration": "Sunday. The grind. Same drill as last week, son. EMOM swings. Same minutes. We're bumping the reps to twelve. Two hundred forty swings instead of two hundred. Twenty percent more work in the same window. That's the deal."
+            },
+            {
+              "block": "warmup",
+              "duration_sec": 240,
+              "movements": [
+                {"name": "Halos", "reps": "5 each direction", "weight": "20lb", "video_key": "halo"},
+                {"name": "Hip hinge", "reps": "12", "video_key": "hip_hinge"},
+                {"name": "Goblet squat", "reps": "10", "weight": "20lb", "video_key": "goblet_squat"},
+                {"name": "Light swing", "reps": "12", "weight": "20lb", "video_key": "two_hand_swing"}
+              ],
+              "narration": "Four minutes. Same as last week. Twelve light swings to finish the warm-up. Same number you'll do at the top of every minute. Practice the count now."
+            },
+            {
+              "block": "main",
+              "duration_sec": 1200,
+              "structure": "EMOM x 20. 12 two-hand swings at the top of every minute.",
+              "movements": [
+                {"name": "Two-hand swing", "reps": "12 per minute", "weight": "25lb", "video_key": "two_hand_swing"}
+              ],
+              "narration_per_round": [
+                "Minute one. Twelve swings. Same form, more volume. Don't grip the bell to death.",
+                "Two.",
+                "Three.",
+                "Four.",
+                "Five. A quarter.",
+                "Six. The grip is going to bark at some point. Let it bark. Don't argue back.",
+                "Seven.",
+                "Eight.",
+                "Nine.",
+                "Ten. Halfway. Same cue as last week, one breath at the top of next minute before you start.",
+                "Eleven.",
+                "Twelve.",
+                "Thirteen.",
+                "Fourteen.",
+                "Fifteen. Three quarters.",
+                "Sixteen.",
+                "Seventeen.",
+                "Eighteen. Three left.",
+                "Nineteen.",
+                "Twenty. Last minute. Twelve clean ones. Bell empty. Done."
+              ],
+              "midpoint_checkin": true
+            },
+            {
+              "block": "outro",
+              "narration": "Two hundred forty swings. End of week two. Foundation phase is two-thirds done. Next week we add a few new tools. Don't get cocky. The patterns you're learning now are the ones you're going to use heavy in eight weeks. Rest up. I'll see you Monday."
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "week": 3,
+      "phase": "Foundation",
+      "theme": "Introduce the clean. Build double-bell awareness.",
+      "summary": "We introduce the kettlebell clean (the rack position) and bring in our first double-bell carry work. Volume holds at week 2 levels. We're trading some reps for a new movement skill. Get-ups stay at 12. Swings stay at 240. Run intervals add a tempo segment.",
+      "workouts_summary": "Mon: Sarge teaches the clean as part of a complex (clean-squat-press, 4 rounds). Tue: Marcus does TGUs (12) + double-bell front rack carries (4 x 30s). Wed: Kai's complex now includes the clean. Fri: Kai's run adds a 4-minute tempo block; KB session adds clean-and-press. Sat: Marcus long run, 35 min steady (unchanged). Sun: Sarge grind, 240 swings, but the bell goes to 30lb if double 25s aren't your thing yet. (Detailed narration provided in v1.1 update.)"
+    },
+    {
+      "week": 4,
+      "phase": "Foundation",
+      "theme": "Foundation closes. Test week-lite.",
+      "summary": "Last week of Foundation phase. We hold all volume from week 3 but introduce light double-bell front squats (2x20lb). On Sunday, the grind becomes a 250-swing test (same EMOM structure, one extra round at 12 reps = 252). The week is designed so you finish strong and confident before the Build phase starts.",
+      "workouts_summary": "Mon: 4 rounds strength, add double 20lb front squat as accessory. Tue: TGUs at 12 + double-bell suitcase carries. Wed: complex now has clean-squat-press-row (4 rounds). Fri: run intervals 8x30/30 + tempo 5min; KB hybrid 5 rounds. Sat: 35min long run. Sun: 21-min EMOM, 12 swings = 252 swings. Foundation complete. (Detailed narration in v1.1.)"
+    },
+
+    {
+      "week": 5,
+      "phase": "Build",
+      "theme": "Build phase begins. EMOMs lengthen. Doubles arrive.",
+      "summary": "First Build week. Sessions extend to 28-30 min. Double-bell work becomes standard: double cleans, double front squats with 2x20lb or 2x25lb depending on energy. Running adds longer tempo intervals (3 x 3min). KB grind moves from swings-only to a swing/snatch mix on Sundays. (Full narration v1.1.)"
+    },
+    {
+      "week": 6,
+      "phase": "Build",
+      "theme": "Snatch enters. The single-arm swing as bridge.",
+      "summary": "We introduce the snatch via the single-arm swing progression. Mon-Wed integrate single-arm swings + snatch attempts at 20lb. Friday hybrid stays. Saturday long run goes to 40 min. Sunday grind: 15 EMOM rounds, alternating 10 swings and 5 snatches per side. (Full narration v1.1.)"
+    },
+    {
+      "week": 7,
+      "phase": "Build",
+      "theme": "Density. Same time, more work.",
+      "summary": "We pack more reps into the same windows. EMOMs become E2MOMs with two movements per round. The press load creeps to 25lb consistently. Long run holds at 40 min, intervals add a fourth round of tempo. Grind day: 20-min ladder of swings + snatches. (Full narration v1.1.)"
+    },
+    {
+      "week": 8,
+      "phase": "Build",
+      "theme": "Build phase closes. Mini-test.",
+      "summary": "Last Build week. Sunday becomes a mini-test: 10 min AMRAP of a chosen complex (5 swings, 3 cleans, 2 presses each side at 25lb). Mon-Wed hold the densest version of Build volume. Friday hybrid extends to 50 min total. Saturday: 40-min steady run, last 5 min faster. (Full narration v1.1.)"
+    },
+
+    {
+      "week": 9,
+      "phase": "Forge",
+      "theme": "Forge phase begins. Heavy. Honest.",
+      "summary": "We bring out the 50lb bell. Single-bell work shifts to the 50 for swings and goblet squats. Doubles stay at 2x25lb. Presses stay at 25lb but reps decrease and intensity increases. Running adds threshold intervals (4 x 4min). Grind: 50lb swings, EMOM x 15, 8 reps. (Full narration v1.1.)"
+    },
+    {
+      "week": 10,
+      "phase": "Forge",
+      "theme": "Heavy complexes. Long threshold runs.",
+      "summary": "Complexes get harder: clean-squat-press-snatch with the double 25s. Long run extends to 45 min with a 10-min threshold block in the middle. Sunday grind moves to a 20-min snatch test (10 per minute alternating). (Full narration v1.1.)"
+    },
+    {
+      "week": 11,
+      "phase": "Forge",
+      "theme": "Peak volume.",
+      "summary": "Highest volume week of the program. Every session is at or near 30 min. Friday hybrid is 55 min. Saturday long run 50 min. Sunday grind: 25-min EMOM ladder. This is the week that earns the crown. Get-ups remain at 12 but now with 25lb. (Full narration v1.1.)"
+    },
+    {
+      "week": 12,
+      "phase": "Forge",
+      "theme": "Forge complete. Test week.",
+      "summary": "Final week. Volume drops 30% to allow recovery into a test on Sunday. Test: a chosen Forge40 benchmark workout combining all skills (swings, cleans, presses, snatches, get-up, run). 30 minutes. Maximum effort. Rate honestly. The crown is earned here. (Full narration v1.1.)"
+    }
+  ]
+}

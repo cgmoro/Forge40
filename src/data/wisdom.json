@@ -1,0 +1,522 @@
+[
+  {
+    "id": "ma-01",
+    "quote": "Waste no more time arguing what a good man should be. Be one.",
+    "author": "Marcus Aurelius",
+    "source": "Meditations, Book X",
+    "link": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "theme": "discipline"
+  },
+  {
+    "id": "ma-02",
+    "quote": "The impediment to action advances action. What stands in the way becomes the way.",
+    "author": "Marcus Aurelius",
+    "source": "Meditations, Book V",
+    "link": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "theme": "resilience"
+  },
+  {
+    "id": "ma-03",
+    "quote": "You have power over your mind, not outside events. Realize this, and you will find strength.",
+    "author": "Marcus Aurelius",
+    "source": "Meditations, Book VI",
+    "link": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "theme": "self-mastery"
+  },
+  {
+    "id": "ma-04",
+    "quote": "It is not death that a man should fear, but he should fear never beginning to live.",
+    "author": "Marcus Aurelius",
+    "source": "Meditations, Book IV",
+    "link": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "theme": "presence"
+  },
+  {
+    "id": "ma-05",
+    "quote": "If it is not right, do not do it. If it is not true, do not say it.",
+    "author": "Marcus Aurelius",
+    "source": "Meditations, Book XII",
+    "link": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "theme": "discipline"
+  },
+  {
+    "id": "ma-06",
+    "quote": "Never let the future disturb you. You will meet it, if you have to, with the same weapons of reason which today arm you against the present.",
+    "author": "Marcus Aurelius",
+    "source": "Meditations, Book VII",
+    "link": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "theme": "resilience"
+  },
+  {
+    "id": "ma-07",
+    "quote": "Nowhere can man find a quieter or more untroubled retreat than in his own soul.",
+    "author": "Marcus Aurelius",
+    "source": "Meditations, Book IV",
+    "link": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "theme": "presence"
+  },
+  {
+    "id": "ma-08",
+    "quote": "Accept the things to which fate binds you, and love the people with whom fate brings you together.",
+    "author": "Marcus Aurelius",
+    "source": "Meditations, Book VI",
+    "link": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "theme": "fatherhood"
+  },
+  {
+    "id": "ma-09",
+    "quote": "Confine yourself to the present.",
+    "author": "Marcus Aurelius",
+    "source": "Meditations, Book VIII",
+    "link": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "theme": "presence"
+  },
+  {
+    "id": "ma-10",
+    "quote": "The first rule is to keep an untroubled spirit. The second is to look things in the face and know them for what they are.",
+    "author": "Marcus Aurelius",
+    "source": "Meditations, Book VIII",
+    "link": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "theme": "self-mastery"
+  },
+  {
+    "id": "ep-01",
+    "quote": "It's not what happens to you, but how you react to it that matters.",
+    "author": "Epictetus",
+    "source": "Discourses, Book I",
+    "link": "https://standardebooks.org/ebooks/epictetus/discourses-fragments-handbook/george-long",
+    "theme": "resilience"
+  },
+  {
+    "id": "ep-02",
+    "quote": "No man is free who is not master of himself.",
+    "author": "Epictetus",
+    "source": "Discourses, Book IV",
+    "link": "https://standardebooks.org/ebooks/epictetus/discourses-fragments-handbook/george-long",
+    "theme": "self-mastery"
+  },
+  {
+    "id": "ep-03",
+    "quote": "Seek not the good in external things; seek it in yourself.",
+    "author": "Epictetus",
+    "source": "Discourses, Book III",
+    "link": "https://standardebooks.org/ebooks/epictetus/discourses-fragments-handbook/george-long",
+    "theme": "self-mastery"
+  },
+  {
+    "id": "ep-04",
+    "quote": "He is a wise man who does not grieve for the things which he has not, but rejoices for those which he has.",
+    "author": "Epictetus",
+    "source": "Fragments",
+    "link": "https://standardebooks.org/ebooks/epictetus/discourses-fragments-handbook/george-long",
+    "theme": "resilience"
+  },
+  {
+    "id": "ep-05",
+    "quote": "First say to yourself what you would be; and then do what you have to do.",
+    "author": "Epictetus",
+    "source": "Discourses, Book III",
+    "link": "https://standardebooks.org/ebooks/epictetus/discourses-fragments-handbook/george-long",
+    "theme": "discipline"
+  },
+  {
+    "id": "ep-06",
+    "quote": "Make the best use of what is in your power, and take the rest as it happens.",
+    "author": "Epictetus",
+    "source": "Enchiridion",
+    "link": "https://standardebooks.org/ebooks/epictetus/discourses-fragments-handbook/george-long",
+    "theme": "resilience"
+  },
+  {
+    "id": "ep-07",
+    "quote": "If you want to improve, be content to be thought foolish and stupid.",
+    "author": "Epictetus",
+    "source": "Enchiridion",
+    "link": "https://standardebooks.org/ebooks/epictetus/discourses-fragments-handbook/george-long",
+    "theme": "discipline"
+  },
+  {
+    "id": "sn-01",
+    "quote": "Luck is what happens when preparation meets opportunity.",
+    "author": "Seneca",
+    "source": "Letters to Lucilius",
+    "link": "https://standardebooks.org/ebooks/seneca/epistulae-morales-ad-lucilium/richard-mott-gummere",
+    "theme": "discipline"
+  },
+  {
+    "id": "sn-02",
+    "quote": "Difficulties strengthen the mind as labor does the body.",
+    "author": "Seneca",
+    "source": "Letters to Lucilius",
+    "link": "https://standardebooks.org/ebooks/seneca/epistulae-morales-ad-lucilium/richard-mott-gummere",
+    "theme": "resilience"
+  },
+  {
+    "id": "sn-03",
+    "quote": "We suffer more in imagination than in reality.",
+    "author": "Seneca",
+    "source": "Letters to Lucilius",
+    "link": "https://standardebooks.org/ebooks/seneca/epistulae-morales-ad-lucilium/richard-mott-gummere",
+    "theme": "self-mastery"
+  },
+  {
+    "id": "sn-04",
+    "quote": "It is not that I'm so brave, but that those around me are braver.",
+    "author": "Seneca",
+    "source": "Letters to Lucilius, Letter VI",
+    "link": "https://standardebooks.org/ebooks/seneca/epistulae-morales-ad-lucilium/richard-mott-gummere",
+    "theme": "fatherhood"
+  },
+  {
+    "id": "sn-05",
+    "quote": "Omnia aliena sunt, tempus tantum nostrum est. All things are alien; time alone is ours.",
+    "author": "Seneca",
+    "source": "Letters to Lucilius, Letter I",
+    "link": "https://standardebooks.org/ebooks/seneca/epistulae-morales-ad-lucilium/richard-mott-gummere",
+    "theme": "presence"
+  },
+  {
+    "id": "sn-06",
+    "quote": "Begin at once to live, and count each separate day as a separate life.",
+    "author": "Seneca",
+    "source": "Letters to Lucilius",
+    "link": "https://standardebooks.org/ebooks/seneca/epistulae-morales-ad-lucilium/richard-mott-gummere",
+    "theme": "presence"
+  },
+  {
+    "id": "sn-07",
+    "quote": "The whole future lies in uncertainty: live immediately.",
+    "author": "Seneca",
+    "source": "On the Shortness of Life",
+    "link": "https://standardebooks.org/ebooks/seneca/on-the-shortness-of-life/aubrey-stewart",
+    "theme": "presence"
+  },
+  {
+    "id": "cat-01",
+    "quote": "An orator is a good man skilled in speaking.",
+    "author": "Cato the Elder",
+    "source": "Quintilian, Institutio Oratoria XII",
+    "link": "https://www.stoics.com",
+    "theme": "discipline"
+  },
+  {
+    "id": "mr-01",
+    "quote": "It is not possible to live well today unless you treat it as your last day.",
+    "author": "Musonius Rufus",
+    "source": "Fragments",
+    "link": "https://www.stoics.com",
+    "theme": "presence"
+  },
+  {
+    "id": "mr-02",
+    "quote": "The person who is going to improve and become better must endure much and be belittled.",
+    "author": "Musonius Rufus",
+    "source": "Lectures, Lecture IX",
+    "link": "https://www.stoics.com",
+    "theme": "resilience"
+  },
+  {
+    "id": "lincoln-01",
+    "quote": "Give me six hours to chop down a tree and I will spend the first four sharpening the axe.",
+    "author": "Abraham Lincoln",
+    "source": "Attributed",
+    "link": "https://www.stoics.com",
+    "theme": "discipline"
+  },
+  {
+    "id": "lincoln-02",
+    "quote": "Whatever you are, be a good one.",
+    "author": "Abraham Lincoln",
+    "source": "Attributed",
+    "link": "https://www.stoics.com",
+    "theme": "discipline"
+  },
+  {
+    "id": "tr-01",
+    "quote": "Do what you can, with what you have, where you are.",
+    "author": "Theodore Roosevelt",
+    "source": "Autobiography",
+    "link": "https://www.gutenberg.org/ebooks/3335",
+    "theme": "resilience"
+  },
+  {
+    "id": "tr-02",
+    "quote": "It is not the critic who counts. The credit belongs to the man who is actually in the arena.",
+    "author": "Theodore Roosevelt",
+    "source": "Speech at the Sorbonne, 1910",
+    "link": "https://www.dailystoic.com/man-in-the-arena",
+    "theme": "resilience"
+  },
+  {
+    "id": "tr-03",
+    "quote": "With self-discipline, almost anything is possible.",
+    "author": "Theodore Roosevelt",
+    "source": "Attributed",
+    "link": "https://www.stoics.com",
+    "theme": "discipline"
+  },
+  {
+    "id": "fd-01",
+    "quote": "If there is no struggle, there is no progress.",
+    "author": "Frederick Douglass",
+    "source": "Speech, 1857",
+    "link": "https://www.freedomsjournal.org",
+    "theme": "resilience"
+  },
+  {
+    "id": "frankl-01",
+    "quote": "When we are no longer able to change a situation, we are challenged to change ourselves.",
+    "author": "Viktor Frankl",
+    "source": "Man's Search for Meaning",
+    "link": "https://www.stoics.com",
+    "theme": "resilience"
+  },
+  {
+    "id": "frankl-02",
+    "quote": "Everything can be taken from a man but one thing: the last of the human freedoms — to choose one's attitude in any given set of circumstances.",
+    "author": "Viktor Frankl",
+    "source": "Man's Search for Meaning",
+    "link": "https://www.stoics.com",
+    "theme": "self-mastery"
+  },
+  {
+    "id": "jocko-01",
+    "quote": "Discipline equals freedom.",
+    "author": "Jocko Willink",
+    "source": "Extreme Ownership",
+    "link": "https://www.stoics.com",
+    "theme": "discipline"
+  },
+  {
+    "id": "jocko-02",
+    "quote": "Don't count on motivation. Count on discipline.",
+    "author": "Jocko Willink",
+    "source": "Discipline Equals Freedom",
+    "link": "https://www.stoics.com",
+    "theme": "discipline"
+  },
+  {
+    "id": "churchill-01",
+    "quote": "Continuous effort — not strength or intelligence — is the key to unlocking our potential.",
+    "author": "Winston Churchill",
+    "source": "Attributed",
+    "link": "https://www.stoics.com",
+    "theme": "resilience"
+  },
+  {
+    "id": "churchill-02",
+    "quote": "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+    "author": "Winston Churchill",
+    "source": "Attributed",
+    "link": "https://www.stoics.com",
+    "theme": "resilience"
+  },
+  {
+    "id": "ma-11",
+    "quote": "Do not indulge in dreams of what you have not, but reckon up the chief of the blessings you do possess.",
+    "author": "Marcus Aurelius",
+    "source": "Meditations, Book VII",
+    "link": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "theme": "self-mastery"
+  },
+  {
+    "id": "ma-12",
+    "quote": "He who lives in harmony with himself lives in harmony with the universe.",
+    "author": "Marcus Aurelius",
+    "source": "Meditations, Book IV",
+    "link": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "theme": "fatherhood"
+  },
+  {
+    "id": "ma-13",
+    "quote": "A man's worth is no greater than his ambitions.",
+    "author": "Marcus Aurelius",
+    "source": "Meditations, Book VII",
+    "link": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "theme": "discipline"
+  },
+  {
+    "id": "ep-08",
+    "quote": "Man is not worried by real problems so much as by his imagined anxieties about real problems.",
+    "author": "Epictetus",
+    "source": "Discourses",
+    "link": "https://standardebooks.org/ebooks/epictetus/discourses-fragments-handbook/george-long",
+    "theme": "self-mastery"
+  },
+  {
+    "id": "ep-09",
+    "quote": "The key is to keep company only with people who uplift you.",
+    "author": "Epictetus",
+    "source": "Discourses",
+    "link": "https://standardebooks.org/ebooks/epictetus/discourses-fragments-handbook/george-long",
+    "theme": "fatherhood"
+  },
+  {
+    "id": "sn-08",
+    "quote": "Per aspera ad astra. Through hardship to the stars.",
+    "author": "Seneca",
+    "source": "Hercules Furens",
+    "link": "https://standardebooks.org/ebooks/seneca/epistulae-morales-ad-lucilium/richard-mott-gummere",
+    "theme": "resilience"
+  },
+  {
+    "id": "sn-09",
+    "quote": "A gem cannot be polished without friction, nor a man perfected without trials.",
+    "author": "Seneca",
+    "source": "Letters to Lucilius",
+    "link": "https://standardebooks.org/ebooks/seneca/epistulae-morales-ad-lucilium/richard-mott-gummere",
+    "theme": "resilience"
+  },
+  {
+    "id": "ma-14",
+    "quote": "Amor fati. Love your fate. Not merely bear it.",
+    "author": "Marcus Aurelius",
+    "source": "Meditations, Book IX",
+    "link": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "theme": "resilience"
+  },
+  {
+    "id": "ma-15",
+    "quote": "How much time he gains who does not look to see what his neighbor says or does.",
+    "author": "Marcus Aurelius",
+    "source": "Meditations, Book IV",
+    "link": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "theme": "presence"
+  },
+  {
+    "id": "ep-10",
+    "quote": "Wealth consists not in having great possessions, but in having few wants.",
+    "author": "Epictetus",
+    "source": "Fragments",
+    "link": "https://standardebooks.org/ebooks/epictetus/discourses-fragments-handbook/george-long",
+    "theme": "self-mastery"
+  },
+  {
+    "id": "tac-01",
+    "quote": "In valor there is hope.",
+    "author": "Tacitus",
+    "source": "Annals",
+    "link": "https://standardebooks.org/ebooks/tacitus/annals/alfred-john-church_william-jackson-brodribb",
+    "theme": "resilience"
+  },
+  {
+    "id": "ma-16",
+    "quote": "Begin the morning by saying to thyself, I shall meet with the busy-body, the ungrateful, arrogant, deceitful, envious, unsocial.",
+    "author": "Marcus Aurelius",
+    "source": "Meditations, Book II",
+    "link": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "theme": "self-mastery"
+  },
+  {
+    "id": "ma-17",
+    "quote": "Everything we hear is an opinion, not a fact. Everything we see is a perspective, not the truth.",
+    "author": "Marcus Aurelius",
+    "source": "Meditations, Book IX",
+    "link": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "theme": "self-mastery"
+  },
+  {
+    "id": "sn-10",
+    "quote": "The thing that matters most must never be at the mercy of things that matter least.",
+    "author": "Seneca",
+    "source": "Letters to Lucilius",
+    "link": "https://standardebooks.org/ebooks/seneca/epistulae-morales-ad-lucilium/richard-mott-gummere",
+    "theme": "discipline"
+  },
+  {
+    "id": "douglas-01",
+    "quote": "I prayed for twenty years but received no answer until I prayed with my legs.",
+    "author": "Frederick Douglass",
+    "source": "Attributed",
+    "link": "https://www.stoics.com",
+    "theme": "discipline"
+  },
+  {
+    "id": "br-01",
+    "quote": "The cave you fear to enter holds the treasure you seek.",
+    "author": "Joseph Campbell",
+    "source": "The Hero with a Thousand Faces",
+    "link": "https://www.stoics.com",
+    "theme": "resilience"
+  },
+  {
+    "id": "plato-01",
+    "quote": "The first and greatest victory is to conquer yourself.",
+    "author": "Plato",
+    "source": "Laws",
+    "link": "https://standardebooks.org/ebooks/plato/the-republic/benjamin-jowett",
+    "theme": "self-mastery"
+  },
+  {
+    "id": "aris-01",
+    "quote": "We are what we repeatedly do. Excellence, then, is not an act but a habit.",
+    "author": "Aristotle",
+    "source": "Nicomachean Ethics",
+    "link": "https://standardebooks.org/ebooks/aristotle/nicomachean-ethics/f-h-peters",
+    "theme": "discipline"
+  },
+  {
+    "id": "aris-02",
+    "quote": "It is during our darkest moments that we must focus to see the light.",
+    "author": "Aristotle",
+    "source": "Attributed",
+    "link": "https://standardebooks.org/ebooks/aristotle/nicomachean-ethics/f-h-peters",
+    "theme": "resilience"
+  },
+  {
+    "id": "hm-01",
+    "quote": "The secret of getting ahead is getting started.",
+    "author": "Mark Twain",
+    "source": "Attributed",
+    "link": "https://www.stoics.com",
+    "theme": "discipline"
+  },
+  {
+    "id": "ma-18",
+    "quote": "A man must stand erect, not be kept erect by others.",
+    "author": "Marcus Aurelius",
+    "source": "Meditations, Book III",
+    "link": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "theme": "discipline"
+  },
+  {
+    "id": "ma-19",
+    "quote": "The object of life is not to be on the side of the majority, but to escape finding oneself in the ranks of the insane.",
+    "author": "Marcus Aurelius",
+    "source": "Meditations, Book IX",
+    "link": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "theme": "self-mastery"
+  },
+  {
+    "id": "ep-11",
+    "quote": "Caretake this moment. Immerse yourself in its particulars.",
+    "author": "Epictetus",
+    "source": "Discourses",
+    "link": "https://standardebooks.org/ebooks/epictetus/discourses-fragments-handbook/george-long",
+    "theme": "presence"
+  },
+  {
+    "id": "father-01",
+    "quote": "The most important thing a father can do for his children is to love their mother.",
+    "author": "Theodore Hesburgh",
+    "source": "Attributed",
+    "link": "https://www.stoics.com",
+    "theme": "fatherhood"
+  },
+  {
+    "id": "sn-11",
+    "quote": "Nusquam est qui ubique est. He who is everywhere is nowhere.",
+    "author": "Seneca",
+    "source": "Letters to Lucilius, Letter II",
+    "link": "https://standardebooks.org/ebooks/seneca/epistulae-morales-ad-lucilium/richard-mott-gummere",
+    "theme": "presence"
+  },
+  {
+    "id": "ma-20",
+    "quote": "You have power over your mind — not outside events. Realize this, and you will find strength.",
+    "author": "Marcus Aurelius",
+    "source": "Meditations, Book VI",
+    "link": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long",
+    "theme": "self-mastery"
+  }
+]

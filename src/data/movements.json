@@ -1,0 +1,133 @@
+{
+  "kettlebell": {
+    "swing": {
+      "name": "Kettlebell Swing",
+      "cue": "Hinge, not squat. Drive with the hips. The bell floats.",
+      "video_url": "https://www.youtube.com/watch?v=sSESeQAir2M",
+      "source": "StrongFirst"
+    },
+    "goblet_squat": {
+      "name": "Goblet Squat",
+      "cue": "Bell at chest. Sit between your heels. Elbows inside knees.",
+      "video_url": "https://www.youtube.com/watch?v=MeIiIdhvXT4",
+      "source": "StrongFirst"
+    },
+    "clean": {
+      "name": "Kettlebell Clean",
+      "cue": "Lead with the elbow, not the arm. Bell travels a straight line.",
+      "video_url": "https://www.youtube.com/watch?v=3Fp8gI_E-L8",
+      "source": "Kettlebell Kings"
+    },
+    "press": {
+      "name": "Kettlebell Press",
+      "cue": "Pack the shoulder. Press vertical. The spine does not move.",
+      "video_url": "https://www.youtube.com/watch?v=Iqp8GjVKa3s",
+      "source": "StrongFirst"
+    },
+    "snatch": {
+      "name": "Kettlebell Snatch",
+      "cue": "High pull, then punch through. The bell should float over the top.",
+      "video_url": "https://www.youtube.com/watch?v=7X2E1KIFxlM",
+      "source": "StrongFirst"
+    },
+    "tgu": {
+      "name": "Turkish Get-Up",
+      "cue": "Eyes on the bell. One movement at a time. Slow is smooth.",
+      "video_url": "https://www.youtube.com/watch?v=dCnMvB2yvR4",
+      "source": "StrongFirst"
+    },
+    "halo": {
+      "name": "Kettlebell Halo",
+      "cue": "Circle the bell around your head. Keep your elbows soft. Shoulders down.",
+      "video_url": "https://www.youtube.com/watch?v=RN3m5WBjSMk",
+      "source": "Eric Leija"
+    },
+    "windmill": {
+      "name": "Windmill",
+      "cue": "Bell overhead. Push the hip toward the bell. Eyes up.",
+      "video_url": "https://www.youtube.com/watch?v=DkAMT6m7hC8",
+      "source": "StrongFirst"
+    },
+    "row": {
+      "name": "Single-arm Kettlebell Row",
+      "cue": "Neutral spine. Drive the elbow back, not the hand up.",
+      "video_url": "https://www.youtube.com/watch?v=ij0eRtD3VDs",
+      "source": "Kettlebell Kings"
+    },
+    "renegade_row": {
+      "name": "Renegade Row",
+      "cue": "Push-up position. Row one bell, brace the other side. No hip rotation.",
+      "video_url": "https://www.youtube.com/watch?v=0WXlVeFG2V0",
+      "source": "Eric Leija"
+    },
+    "front_squat": {
+      "name": "Double Kettlebell Front Squat",
+      "cue": "Bells in rack. Squat deep. Elbows stay high. Stand tall.",
+      "video_url": "https://www.youtube.com/watch?v=X5DMlRMj9NM",
+      "source": "StrongFirst"
+    },
+    "deadlift": {
+      "name": "Kettlebell Deadlift",
+      "cue": "Push the floor away. Hinge from the hips. Spine neutral.",
+      "video_url": "https://www.youtube.com/watch?v=r4MzxtBKyNE",
+      "source": "Kettlebell Kings"
+    },
+    "clean_press": {
+      "name": "Clean and Press",
+      "cue": "Clean to rack. Brief pause. Press from shoulder.",
+      "video_url": "https://www.youtube.com/watch?v=3Fp8gI_E-L8",
+      "source": "StrongFirst"
+    },
+    "complex": {
+      "name": "Kettlebell Complex",
+      "cue": "All movements connected. Bell does not touch the ground until the set ends.",
+      "video_url": "https://www.youtube.com/watch?v=q-M7aTXhbq8",
+      "source": "Pat Flynn"
+    },
+    "figure_eight": {
+      "name": "Figure 8",
+      "cue": "Low position. Pass the bell between the legs in a figure-eight pattern.",
+      "video_url": "https://www.youtube.com/watch?v=EXY_wv7OPEg",
+      "source": "Eric Leija"
+    }
+  },
+  "running": {
+    "easy_run": {
+      "name": "Easy Run (Zone 2)",
+      "cue": "Conversational pace. Nose breathing. You should be able to speak full sentences.",
+      "video_url": null
+    },
+    "tempo_run": {
+      "name": "Tempo Run",
+      "cue": "Comfortably hard. About 85-90% effort. Labored breathing, not gasping.",
+      "video_url": null
+    },
+    "intervals": {
+      "name": "Interval Run",
+      "cue": "Hard on, easy off. Hit your target pace on the work interval. Fully recover on rest.",
+      "video_url": null
+    },
+    "long_run": {
+      "name": "Long Run",
+      "cue": "Easy pace throughout. Duration is the workout. Do not race the long run.",
+      "video_url": null
+    }
+  },
+  "bodyweight": {
+    "burpee": {
+      "name": "Burpee",
+      "cue": "Jump back. Chest to floor. Push up. Jump in. Jump up. Clap overhead.",
+      "video_url": null
+    },
+    "push_up": {
+      "name": "Push-up",
+      "cue": "Rigid plank. Lower until chest touches. Full extension at top.",
+      "video_url": null
+    },
+    "jump_rope": {
+      "name": "Jump Rope",
+      "cue": "Light on your feet. Wrists do the work. Land on the balls of your feet.",
+      "video_url": null
+    }
+  }
+}
